@@ -4284,13 +4284,15 @@ public class NXCSession {
 					SessionNotification.MONITOR_CHANNEL_CHANGED, code));
 	}
 
-	public void deleteMappingChannel(int id, String downloadClusterId, String uploadClusterId) 
-			throws IOException, NXCException
-			{
+	public void deleteMappingChannel(int id, String downloadClusterId, 
+			String uploadClusterId, String cHomeId) 
+					throws IOException, NXCException
+					{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_DEL_MAPPING_CHANNEL);
 		msg.setFieldInt32(SpiderCodes.VID_MAPPING_CHANNEL_RECORD_ID, id);
 		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_DOWNLOAD_CLUSTER_ID, downloadClusterId);
 		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_UPLOAD_CLUSTER_ID, uploadClusterId);
+		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_HOME_ID, cHomeId);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());
 		final int code = msg.getFieldAsInt32(NXCPCodes.VID_RCC);
@@ -4300,7 +4302,7 @@ public class NXCSession {
 		if (code == 0) //RCC_SUCCESS
 			sendNotification(new SessionNotification(
 					SessionNotification.MAPPING_CHANNEL_CHANGED, code));
-			}
+					}
 
 	/**
 	 * Create user or group on server
