@@ -26,6 +26,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -42,6 +43,8 @@ import org.spider.client.MappingChannelObject;
 import org.spider.client.MonitorChannelObject;
 import org.spider.client.SpiderDefine;
 import org.spider.client.SpiderDefine.*;
+import org.spider.ui.eclipse.spidermanager.helper.ReadRenderConfigFile;
+import org.spider.ui.eclipse.spidermanager.helper.WriteRenderConfigFile;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Link;
@@ -101,7 +104,7 @@ public class EditMappingChannelDialog extends Dialog {
 	MappingConfig mappingConfig = spiderDefine.new MappingConfig();
 	RenderConfig renderConfig = spiderDefine.new RenderConfig();
 	UploadConfig uploadConfig = spiderDefine.new UploadConfig();
-	
+
 	MappingChannelObject object;
 
 	public EditMappingChannelDialog(Shell parentShell, MappingChannelObject object) {
@@ -300,6 +303,52 @@ public class EditMappingChannelDialog extends Dialog {
 		label.setAlignment(SWT.CENTER);
 		label.setBounds(217, 148, 20, 17);
 
+		Button btnImport = new Button(grpRender, SWT.NONE);
+		btnImport.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog dlg = new FileDialog(getShell(), SWT.SINGLE);
+				dlg.setText("Open render config template file");
+				String[] filterExt = { "*.xml", "*.*" };
+				dlg.setFilterExtensions(filterExt);
+				if (dlg.open() != null) {
+					String names = dlg.getFileName();
+					System.out.println(names);
+					ReadRenderConfigFile readXML = new ReadRenderConfigFile();
+					RenderConfig renderCfg = readXML.read(names);
+					txtVideoIntro.setText(renderCfg.vIntro);
+					txtVideoOutro.setText(renderCfg.vOutro);
+					txtLogo.setText(renderCfg.vLogo);
+					cbIntro.setSelection(renderCfg.enableIntro);
+					cbOutro.setSelection(renderCfg.enableOutro);
+					cbLogo.setSelection(renderCfg.enableLogo);
+				}
+			}
+		});
+		btnImport.setBounds(11, 344, 95, 29);
+		btnImport.setText("Import");
+
+		Button btnExport = new Button(grpRender, SWT.NONE);
+		btnExport.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
+				dialog
+				.setFilterNames(new String[] { "XML file (.xml)", "All Files (*.*)" });
+				dialog.setFilterExtensions(new String[] { "*.xml", "*.*" }); 
+				dialog.setFileName("config.xml");
+				String filePath = dialog.open();
+				WriteRenderConfigFile writeXML = new WriteRenderConfigFile();
+				RenderConfig renderCfg = new SpiderDefine().new RenderConfig(
+						txtVideoIntro.getText(), txtVideoOutro.getText(),
+						txtLogo.getText(), cbIntro.getSelection(), 
+						cbOutro.getSelection(), cbLogo.getSelection());
+				writeXML.write(filePath, renderCfg);
+			}
+		});
+		btnExport.setBounds(125, 344, 95, 29);
+		btnExport.setText("Export");
+
 		tbtmUploadConfig = new TabItem(tabFolder, SWT.NONE);
 		tbtmUploadConfig.setImage(ResourceManager.getPluginImage("org.spider.ui.eclipse.spidermanager", "icons/upload.png"));
 		tbtmUploadConfig.setText("Upload Config");
@@ -490,7 +539,7 @@ public class EditMappingChannelDialog extends Dialog {
 		cbDownload.setText(object.getMappingConfig().downloadClusterId);
 		cbRender.setText(object.getMappingConfig().renderClusterId);
 		cbUpload.setText(object.getMappingConfig().uploadClusterId);
-		
+
 		RenderConfig renderConfig = object.getRenderConfig();
 		txtVideoIntro.setText(renderConfig.vIntro);
 		txtVideoOutro.setText(renderConfig.vOutro);
@@ -498,7 +547,7 @@ public class EditMappingChannelDialog extends Dialog {
 		cbIntro.setSelection(renderConfig.enableIntro);
 		cbOutro.setSelection(renderConfig.enableOutro);
 		cbLogo.setSelection(renderConfig.enableLogo);
-		
+
 		UploadConfig uploadConfig = object.getUploadConfig();
 		txtTitle.setText(uploadConfig.titleTemp);
 		txtDesc.setText(uploadConfig.descTemp);

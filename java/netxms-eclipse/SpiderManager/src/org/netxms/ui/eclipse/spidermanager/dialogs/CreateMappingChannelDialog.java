@@ -26,6 +26,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -41,6 +42,8 @@ import org.spider.client.HomeChannelObject;
 import org.spider.client.MonitorChannelObject;
 import org.spider.client.SpiderDefine;
 import org.spider.client.SpiderDefine.*;
+import org.spider.ui.eclipse.spidermanager.helper.ReadRenderConfigFile;
+import org.spider.ui.eclipse.spidermanager.helper.WriteRenderConfigFile;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Link;
@@ -100,6 +103,7 @@ public class CreateMappingChannelDialog extends Dialog {
 	MappingConfig mappingConfig = spiderDefine.new MappingConfig();
 	RenderConfig renderConfig = spiderDefine.new RenderConfig();
 	UploadConfig uploadConfig = spiderDefine.new UploadConfig();
+	private Button btnExport;
 
 	public CreateMappingChannelDialog(Shell parentShell) {
 		super(parentShell);
@@ -120,7 +124,7 @@ public class CreateMappingChannelDialog extends Dialog {
 		dialogArea.setLayout(null);
 
 		tabFolder = new TabFolder(dialogArea, SWT.NONE);
-		tabFolder.setBounds(10, 10, 509, 414);
+		tabFolder.setBounds(10, 10, 509, 435);
 
 		tbtmMappingConfig = new TabItem(tabFolder, SWT.NONE);
 		tbtmMappingConfig.setImage(ResourceManager.getPluginImage("org.spider.ui.eclipse.spidermanager", "icons/settings_16x16.png"));
@@ -292,21 +296,52 @@ public class CreateMappingChannelDialog extends Dialog {
 		label.setText(":");
 		label.setAlignment(SWT.CENTER);
 		label.setBounds(217, 148, 20, 17);
-		
+
 		Button btnDefault = new Button(grpRender, SWT.NONE);
 		btnDefault.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				txtVideoIntro.setText("/home/phongtran0715/Downloads/Video/test/render_resource/intro.mp4");
-				txtVideoOutro.setText("/home/phongtran0715/Downloads/Video/test/render_resource/outro.mp4");
-				txtLogo.setText("/home/phongtran0715/Downloads/Video/test/render_resource/logo.png");
-				cbIntro.setSelection(true);
-				cbOutro.setSelection(true);
-				cbLogo.setSelection(false);
+				FileDialog dlg = new FileDialog(getShell(), SWT.SINGLE);
+				dlg.setText("Open render config template file");
+				String[] filterExt = { "*.xml", "*.*" };
+				dlg.setFilterExtensions(filterExt);
+				if (dlg.open() != null) {
+					String names = dlg.getFileName();
+					System.out.println(names);
+					ReadRenderConfigFile readXML = new ReadRenderConfigFile();
+					RenderConfig renderCfg = readXML.read(names);
+					txtVideoIntro.setText(renderCfg.vIntro);
+					txtVideoOutro.setText(renderCfg.vOutro);
+					txtLogo.setText(renderCfg.vLogo);
+					cbIntro.setSelection(renderCfg.enableIntro);
+					cbOutro.setSelection(renderCfg.enableOutro);
+					cbLogo.setSelection(renderCfg.enableLogo);
+				}
 			}
 		});
-		btnDefault.setBounds(113, 283, 95, 29);
-		btnDefault.setText("default");
+		btnDefault.setBounds(10, 344, 95, 29);
+		btnDefault.setText("Import");
+
+		btnExport = new Button(grpRender, SWT.NONE);
+		btnExport.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
+				dialog
+				.setFilterNames(new String[] { "XML file (.xml)", "All Files (*.*)" });
+				dialog.setFilterExtensions(new String[] { "*.xml", "*.*" }); 
+				dialog.setFileName("config.xml");
+				String filePath = dialog.open();
+				WriteRenderConfigFile writeXML = new WriteRenderConfigFile();
+				RenderConfig renderCfg = new SpiderDefine().new RenderConfig(
+						txtVideoIntro.getText(), txtVideoOutro.getText(),
+						txtLogo.getText(), cbIntro.getSelection(), 
+						cbOutro.getSelection(), cbLogo.getSelection());
+				writeXML.write(filePath, renderCfg);
+			}
+		});
+		btnExport.setText("Export");
+		btnExport.setBounds(112, 344, 95, 29);
 
 		tbtmUploadConfig = new TabItem(tabFolder, SWT.NONE);
 		tbtmUploadConfig.setImage(ResourceManager.getPluginImage("org.spider.ui.eclipse.spidermanager", "icons/upload.png"));
@@ -406,21 +441,21 @@ public class CreateMappingChannelDialog extends Dialog {
 		mappingConfig.downloadClusterId = cbDownload.getText();
 		mappingConfig.renderClusterId = cbRender.getText();
 		mappingConfig.uploadClusterId = cbUpload.getText();
-		
+
 		renderConfig.vIntro = txtVideoIntro.getText();
 		renderConfig.vOutro = txtVideoOutro.getText();
 		renderConfig.vLogo = txtLogo.getText();
 		renderConfig.enableIntro = cbIntro.getSelection();
 		renderConfig.enableOutro = cbOutro.getSelection();
 		renderConfig.enableLogo = cbLogo.getSelection();
-		
+
 		uploadConfig.titleTemp = txtTitle.getText();
 		uploadConfig.descTemp = txtDesc.getText();
 		uploadConfig.tagTemp = txtTags.getText();
 		uploadConfig.enableTitle = cbTitle.getSelection();
 		uploadConfig.enableDesc = cbDesc.getSelection();
 		uploadConfig.enableTag = cbTag.getSelection();
-		
+
 		super.okPressed();
 	}
 

@@ -40,7 +40,6 @@ import org.spider.ui.eclipse.spidermanager.Activator;
  */
 
 public class MappingChannelManagerView extends LogViewer {
-
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
