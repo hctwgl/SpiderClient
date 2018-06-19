@@ -54,12 +54,6 @@ public class HomeChannelManagerView extends LogViewer {
 	public static final int COLUMN_CHANNEL_ID 		= 1;
 	public static final int COLUMN_CHANNEL_NAME 	= 2;
 	public static final int COLUMN_GOOGLE_ACCOUNT 	= 3;
-	public static final int COLUMN_VIDEO_INTRO 		= 4;
-	public static final int COLUMN_VIDEO_OUTRO 		= 5;
-	public static final int COLUMN_LOGO 			= 6;
-	public static final int COLUMN_DESCRIPTION 		= 7;
-	public static final int COLUMN_TITLE 			= 8;
-	public static final int COLUMN_TAGS 			= 9;
 
 	public HomeChannelManagerView() {
 	}
@@ -196,7 +190,7 @@ public class HomeChannelManagerView extends LogViewer {
 				@Override
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
-					session.createHomeCHannel(dlg.getcId(), dlg.getcName(), dlg.getgAccount(), dlg.getAccountId());
+					session.createHomeCHannel(dlg.getcId(), dlg.getcName(), dlg.getAccountId());
 				}
 
 				@Override
@@ -223,13 +217,7 @@ public class HomeChannelManagerView extends LogViewer {
 				Integer.parseInt(selection[0].getText(COLUMN_ID)),
 				selection[0].getText(COLUMN_CHANNEL_ID),
 				selection[0].getText(COLUMN_CHANNEL_NAME),
-				selection[0].getText(COLUMN_GOOGLE_ACCOUNT),
-				selection[0].getText(COLUMN_VIDEO_INTRO),
-				selection[0].getText(COLUMN_VIDEO_OUTRO),
-				selection[0].getText(COLUMN_LOGO),
-				selection[0].getText(COLUMN_DESCRIPTION),
-				selection[0].getText(COLUMN_TITLE),
-				selection[0].getText(COLUMN_TAGS));
+				Integer.parseInt(selection[0].getText(COLUMN_GOOGLE_ACCOUNT)));
 
 		final EditHomeChannelDialog dlg = new EditHomeChannelDialog(getViewSite().getShell(), selectedObj);
 		if (dlg.open() == Window.OK) {
@@ -238,7 +226,7 @@ public class HomeChannelManagerView extends LogViewer {
 				@Override
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
-					session.modifyHomeCHannel(dlg.getId(), dlg.getcId(), dlg.getcName(),dlg.getgAccount(), dlg.getAccountId());
+					session.modifyHomeCHannel(dlg.getId(), dlg.getcId(), dlg.getcName(), dlg.getAccountId());
 				}
 
 				@Override

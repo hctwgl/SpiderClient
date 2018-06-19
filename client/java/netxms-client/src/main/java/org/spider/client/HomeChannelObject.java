@@ -4,32 +4,19 @@ public class HomeChannelObject {
 	int id;
 	String channelId;
 	String channelName;
-	String googleAccount;
-	String vIntro;
-	String vOutro;
-	String logo;
-	String descTemp;
-	String titleTemp;
-	String tagsTemp;
+	int googleAccountId;
 	
 	public HomeChannelObject()
 	{
 		
 	}
 	
-	public HomeChannelObject( int id, String channelId, String channelName, String googleAccount, 
-			String vIntro, String vOutro, String logo, String desctemp, String titletemp, String tagstemp)
+	public HomeChannelObject( int id, String channelId, String channelName, int googleAccountId)
 	{
 		this.id = id;
 		this.channelId = channelId;
 		this.channelName = channelName;
-		this.googleAccount = googleAccount;
-		this.vIntro = vIntro;
-		this.vOutro = vOutro;
-		this.logo = logo;
-		this.descTemp = desctemp;
-		this.titleTemp = titletemp;
-		this.tagsTemp = tagstemp;
+		this.googleAccountId = googleAccountId;
 	}
 
 	public int getId() {
@@ -55,60 +42,12 @@ public class HomeChannelObject {
 	public void setChannelName(String channelName) {
 		this.channelName = channelName;
 	}
-
-	public String getGoogleAccount() {
-		return googleAccount;
+	
+	public int getGoogleAccountId() {
+		return googleAccountId;
 	}
 
-	public void setGoogleAccount(String googleAccount) {
-		this.googleAccount = googleAccount;
+	public void setGoogleAccountId(int googleAccountId) {
+		this.googleAccountId = googleAccountId;
 	}
-
-	public String getvIntro() {
-		return vIntro;
-	}
-
-	public void setvIntro(String vIntro) {
-		this.vIntro = vIntro;
-	}
-
-	public String getvOutro() {
-		return vOutro;
-	}
-
-	public void setvOutro(String vOutro) {
-		this.vOutro = vOutro;
-	}
-
-	public String getLogo() {
-		return logo;
-	}
-
-	public void setLogo(String logo) {
-		this.logo = logo;
-	}
-
-	public String getDescTemp() {
-		return descTemp;
-	}
-
-	public void setDescTemp(String descTemp) {
-		this.descTemp = descTemp;
-	}
-
-	public String getTitleTemp() {
-		return titleTemp;
-	}
-
-	public void setTitleTemp(String titleTemp) {
-		this.titleTemp = titleTemp;
-	}
-
-	public String getTagsTemp() {
-		return tagsTemp;
-	}
-
-	public void setTagsTemp(String tagsTemp) {
-		this.tagsTemp = tagsTemp;
-	}	
 }

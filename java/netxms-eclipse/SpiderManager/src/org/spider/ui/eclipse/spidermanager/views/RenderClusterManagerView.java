@@ -99,14 +99,15 @@ public class RenderClusterManagerView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		session = ConsoleSharedData.getSession();
 		final String[] names = {
-				"STT",
 				"Id",
 				"Cluster Id", 
 				"Cluster Name",
 				"IP Address",
-				"Port"
+				"Port",
+				"UserName",
+				"Password"
 		};
-		final int[] widths = {60, 0, 200, 200, 200, 120};
+		final int[] widths = {40, 200, 200, 200, 120, 120, 120};
 		viewer = new SortableTableViewer(parent, names, widths, 0, SWT.UP, SortableTableViewer.DEFAULT_STYLE);
 
 		viewer.setContentProvider(new ArrayContentProvider());
@@ -302,7 +303,8 @@ public class RenderClusterManagerView extends ViewPart {
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
 					session.createCluster(dlg.getClusterId(), dlg.getClusterName(), 
-							dlg.getIpAddress(), dlg.getPort(), SpiderCodes.CLUSTER_RENDER);
+							dlg.getIpAddress(), dlg.getPort(), dlg.getUserName(), 
+							dlg.getPassword(), SpiderCodes.CLUSTER_RENDER);
 				}
 
 				@Override
@@ -340,10 +342,9 @@ public class RenderClusterManagerView extends ViewPart {
 					@Override
 					protected void runInternal(IProgressMonitor monitor)
 							throws Exception {
-						for (Object object : selection.toList()) {					
-							session.deleteCluster(((ClusterObject)object).getRecordID(), 
-									SpiderCodes.CLUSTER_RENDER);
-						}
+						session.modifyCluster(dlg.getRecordId(), dlg.getClusterId(),  
+								dlg.getClusterName(), dlg.getIpAddress(), dlg.getPort(),  
+								dlg.getUserName(), dlg.getPassword(), SpiderCodes.CLUSTER_RENDER);
 					}
 
 					@Override

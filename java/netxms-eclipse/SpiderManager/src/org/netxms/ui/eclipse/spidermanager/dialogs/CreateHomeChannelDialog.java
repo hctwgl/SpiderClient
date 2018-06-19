@@ -51,7 +51,6 @@ public class CreateHomeChannelDialog extends Dialog {
 	
 	private String cId;
 	private String cName; 
-	private String gAccount;
 	private int accountId;
 	private NXCSession session;
 	Object[] objGoogleAccount;
@@ -141,7 +140,8 @@ public class CreateHomeChannelDialog extends Dialog {
 				Object homeObj = objGoogleAccount[i];
 				if(homeObj instanceof GoogleAccountObject)
 				{
-					cbGoogleAccount.add(((GoogleAccountObject) homeObj).getUserName());
+					//cbGoogleAccount.add(((GoogleAccountObject) homeObj).getUserName());
+					cbGoogleAccount.add(((GoogleAccountObject) homeObj).getId() + "");
 				}
 			}
 		}
@@ -161,8 +161,7 @@ public class CreateHomeChannelDialog extends Dialog {
 	protected void okPressed() {
 		cId = txtChannelId.getText();
 		cName = txtChannelName.getText();
-		gAccount = cbGoogleAccount.getText();
-		accountId = getIdByAccount(gAccount);
+		accountId = Integer.parseInt(cbGoogleAccount.getText());
 		
 		if(cId == null || cId.isEmpty())
 		{
@@ -195,31 +194,12 @@ public class CreateHomeChannelDialog extends Dialog {
 		super.okPressed();
 	}
 	
-	private int getIdByAccount(String googleAccount)
-	{
-		int id = -1;
-		for ( Object it : objGoogleAccount) {
-			if(it instanceof GoogleAccountObject)
-			{
-				if(((GoogleAccountObject)it).getUserName().equals(googleAccount))
-				{
-					id = ((GoogleAccountObject)it).getId();	
-				}
-			}
-		}
-		return id;
-	}
-	
 	public String getcId() {
 		return cId;
 	}
 
 	public String getcName() {
 		return cName;
-	}
-
-	public String getgAccount() {
-		return gAccount;
 	}
 
 	public int getAccountId() {

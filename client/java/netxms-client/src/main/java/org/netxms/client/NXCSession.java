@@ -3800,15 +3800,8 @@ public class NXCSession {
 			int id = msg.getFieldAsInt32(baseIndex);
 			String  cId = msg.getFieldAsString(baseIndex + 1);
 			String  cName = msg.getFieldAsString(baseIndex + 2);
-			String  gAccount = msg.getFieldAsString(baseIndex + 3);
-			String  vIntro = msg.getFieldAsString(baseIndex + 4);
-			String  vOutro = msg.getFieldAsString(baseIndex + 5);
-			String  logo = msg.getFieldAsString(baseIndex + 6);
-			String  desc = msg.getFieldAsString(baseIndex + 7);
-			String  title = msg.getFieldAsString(baseIndex + 8);
-			String  tags = msg.getFieldAsString(baseIndex + 9);
-			homeChannelList.put(id , new HomeChannelObject(id, cId, cName, gAccount,
-					vIntro, vOutro, logo, desc, title, tags));
+			int  gAccountId = msg.getFieldAsInt32(baseIndex + 3);
+			homeChannelList.put(id , new HomeChannelObject(id, cId, cName, gAccountId));
 		}
 		return homeChannelList.values().toArray();
 	}
@@ -3913,7 +3906,10 @@ public class NXCSession {
 			String clusterName = msg.getFieldAsString(baseIndex + 2);
 			String ipAddress = msg.getFieldAsString(baseIndex + 3);
 			int port = msg.getFieldAsInt32(baseIndex + 4);
-			clusterObjectList.put(i , new ClusterObject(++stt, recordId, clusterId, clusterName, ipAddress, port));
+			String userName = msg.getFieldAsString(baseIndex + 5);
+			String password = msg.getFieldAsString(baseIndex + 6);
+			clusterObjectList.put(i , new ClusterObject(++stt, recordId, clusterId, 
+					clusterName, ipAddress, port, userName, password));
 		}
 		return clusterObjectList.values().toArray();
 	}
@@ -3961,13 +3957,12 @@ public class NXCSession {
 					SessionNotification.GOOGLE_ACCOUNT_CHANGED, code));
 					}
 
-	public void createHomeCHannel(String cId, String cName, String gAccount, int accountd) 
+	public void createHomeCHannel(String cId, String cName, int accountd) 
 			throws IOException, NXCException
 			{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_CREATE_HOME_CHANNEL);
 		msg.setField(SpiderCodes.VID_HOME_CHANNEL_ID, cId);
 		msg.setField(SpiderCodes.VID_HOME_CHANNEL_NAME, cName);
-		msg.setField(SpiderCodes.VID_HOME_CHANNEL_GACCOUNT, gAccount);
 		msg.setFieldInt32(SpiderCodes.VID_HOME_CHANNEL_ACCOUNT_ID, accountd);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());
@@ -3977,14 +3972,13 @@ public class NXCSession {
 					SessionNotification.HOME_CHANNEL_CHANGED, code));
 			}
 
-	public void modifyHomeCHannel(int id, String cId, String cName, String gAccount, int accountId) 
+	public void modifyHomeCHannel(int id, String cId, String cName, int accountId) 
 			throws IOException, NXCException
 			{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_MOD_HOME_CHANNEL);
 		msg.setFieldInt32(SpiderCodes.VID_HOME_CHANNEL_RECORD_ID, id);
 		msg.setField(SpiderCodes.VID_HOME_CHANNEL_ID, cId);
 		msg.setField(SpiderCodes.VID_HOME_CHANNEL_NAME, cName);
-		msg.setField(SpiderCodes.VID_HOME_CHANNEL_GACCOUNT, gAccount);
 		msg.setFieldInt32(SpiderCodes.VID_HOME_CHANNEL_ACCOUNT_ID, accountId);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());
@@ -3994,7 +3988,8 @@ public class NXCSession {
 					SessionNotification.HOME_CHANNEL_CHANGED, code));
 			}
 
-	public void modifyCluster(int recordId, String clusterId, String clusterName, String ipAddress, int port, int clusterType) 
+	public void modifyCluster(int recordId, String clusterId, String clusterName, String ipAddress,
+			int port, String userName, String password, int clusterType) 
 			throws IOException, NXCException
 			{
 		NXCPMessage msg;
@@ -4018,6 +4013,8 @@ public class NXCSession {
 		msg.setField(SpiderCodes.VID_SPIDER_CLUSTER_NAME, clusterName);
 		msg.setField(SpiderCodes.VID_SPIDER_CLUSTER_IP_ADDRESS, ipAddress);
 		msg.setFieldInt32(SpiderCodes.VID_SPIDER_CLUSTER_PORT, port);
+		msg.setField(SpiderCodes.VID_SPIDER_CLUSTER_USER_NAME, userName);
+		msg.setField(SpiderCodes.VID_SPIDER_CLUSTER_PASSWORD, password);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());
 		final int code = msg.getFieldAsInt32(NXCPCodes.VID_RCC);
@@ -4111,7 +4108,7 @@ public class NXCSession {
 			}
 
 	public int createCluster(String clusterId, String clusterName, String ipAddress, 
-			int port, int clusterType)  throws IOException, NXCException
+			int port, String userName, String password, int clusterType)  throws IOException, NXCException
 			{
 		int code = 0;
 		NXCPMessage msg;
@@ -4135,6 +4132,8 @@ public class NXCSession {
 		msg.setField(SpiderCodes.VID_SPIDER_CLUSTER_NAME, clusterName);
 		msg.setField(SpiderCodes.VID_SPIDER_CLUSTER_IP_ADDRESS, ipAddress);
 		msg.setFieldInt32(SpiderCodes.VID_SPIDER_CLUSTER_PORT, port);
+		msg.setField(SpiderCodes.VID_SPIDER_CLUSTER_USER_NAME, userName);
+		msg.setField(SpiderCodes.VID_SPIDER_CLUSTER_PASSWORD, password);
 
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());

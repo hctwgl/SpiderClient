@@ -69,8 +69,6 @@ public class ClusterLabelProvider extends DecoratingLabelProvider implements
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		switch (columnIndex) {
-		case DownloadClusterManagerView.COLUMN_STT:
-			return Integer.toString(((ClusterObject)element).getStt());
 		case DownloadClusterManagerView.COLUMN_RECORD_ID:
 			return Integer.toString(((ClusterObject) element).getRecordID());
 		case DownloadClusterManagerView.COLUMN_CLUSTER_ID:
@@ -81,6 +79,10 @@ public class ClusterLabelProvider extends DecoratingLabelProvider implements
 			return ((ClusterObject) element).getIpAddress();
 		case DownloadClusterManagerView.COLUMN_PORT:
 			return Integer.toString(((ClusterObject) element).getPort());
+		case DownloadClusterManagerView.COLUMN_USER_NAME:
+			return ((ClusterObject) element).getUserName();
+		case DownloadClusterManagerView.COLUMN_PASSWORD:
+			return ((ClusterObject) element).getPassword();
 		default:
 			break;
 		}

@@ -97,7 +97,9 @@ public class SpiderCodes {
 	public static final long VID_SPIDER_CLUSTER_NAME					= 1104;
 	public static final long VID_SPIDER_CLUSTER_IP_ADDRESS				= 1105;
 	public static final long VID_SPIDER_CLUSTER_PORT					= 1106;
-	public static final long VID_SPIDER_CLUSTER_TYPE					= 1107;
+	public static final long VID_SPIDER_CLUSTER_USER_NAME				= 1107;
+	public static final long VID_SPIDER_CLUSTER_PASSWORD				= 1108;
+	public static final long VID_SPIDER_CLUSTER_TYPE					= 1109;
 	public static final long VID_SPIDER_CLUSTER_END						= 1120;
 	//end cluster variable
 

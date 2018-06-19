@@ -53,7 +53,6 @@ public class EditHomeChannelDialog extends Dialog {
 	private int id;
 	private String cId;
 	private String cName; 
-	private String gAccount;
 	private int accountId;
 	HomeChannelObject object;
 	Object[] objGoogleAccount;
@@ -127,7 +126,7 @@ public class EditHomeChannelDialog extends Dialog {
 		//initial data
 		txtChannelId.setText(this.object.getChannelId());
 		txtChannelName.setText(this.object.getChannelName());
-		cbGoogleAccount.setText(object.getGoogleAccount());
+		cbGoogleAccount.setText("" + object.getGoogleAccountId());
 		
 		try {
 			if(objGoogleAccount == null)
@@ -149,7 +148,8 @@ public class EditHomeChannelDialog extends Dialog {
 				Object homeObj = objGoogleAccount[i];
 				if(homeObj instanceof GoogleAccountObject)
 				{
-					cbGoogleAccount.add(((GoogleAccountObject) homeObj).getUserName());
+					//cbGoogleAccount.add(((GoogleAccountObject) homeObj).getUserName());
+					cbGoogleAccount.add(((GoogleAccountObject) homeObj).getId() + "");
 				}
 			}
 		}
@@ -165,23 +165,13 @@ public class EditHomeChannelDialog extends Dialog {
 	protected void okPressed() {
 		cId = txtChannelId.getText();
 		cName = txtChannelName.getText();
-		gAccount = cbGoogleAccount.getText();
-		accountId = getIdByAccount(gAccount);
+		accountId = Integer.parseInt(cbGoogleAccount.getText());
 		if(cId == null || cId.isEmpty())
 		{
 			MessageBox dialog =
 					new MessageBox(getShell(), SWT.ERROR | SWT.OK);
 			dialog.setText("Error");
 			dialog.setMessage("Channel ID must not empty!");
-			dialog.open();
-			return;
-		}
-		if(gAccount == null || gAccount.isEmpty())
-		{
-			MessageBox dialog =
-					new MessageBox(getShell(), SWT.ERROR | SWT.OK);
-			dialog.setText("Error");
-			dialog.setMessage("Google account must not empty!");
 			dialog.open();
 			return;
 		}
@@ -222,10 +212,6 @@ public class EditHomeChannelDialog extends Dialog {
 
 	public String getcName() {
 		return cName;
-	}
-
-	public String getgAccount() {
-		return gAccount;
 	}
 
 	public int getAccountId() {

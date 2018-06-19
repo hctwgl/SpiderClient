@@ -7,12 +7,15 @@ public class ClusterObject {
 	String clusterName;
 	String ipAddress;
 	int port;
+	String userName;
+	String password;
 	
 	public ClusterObject() {
 	}
 
 	public ClusterObject(int stt, int recordId, String clusterId, 
-			String clusterName, String ipAddress, int port) 
+			String clusterName, String ipAddress, int port, 
+			String userName, String password) 
 	{
 		super();
 		this.stt = stt;
@@ -21,6 +24,8 @@ public class ClusterObject {
 		this.clusterName = clusterName;
 		this.ipAddress = ipAddress;
 		this.port = port;
+		this.userName = userName;
+		this.password = password;
 	}
 
 	public String getClusterId() {
@@ -70,5 +75,19 @@ public class ClusterObject {
 	public void setStt(int stt) {
 		this.stt = stt;
 	}
-	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

@@ -41,11 +41,16 @@ public class EditClusterDialog extends Dialog {
 	private String clusterName;
 	private String ipAddress;
 	private int port;
+	private String userName;
+	private String password;
+	
 	private Text txtClusterId;
 	private Text txtClusterName;
 	private Text txtIpAddress;
 	private Text txtPort;
 	private String title;
+	private Text txtUserName;
+	private Text txtPassword;
 
 	public EditClusterDialog(Shell parentShell, ClusterObject object, String title) {
 		super(parentShell);
@@ -69,7 +74,7 @@ public class EditClusterDialog extends Dialog {
 
 		Group grpCreateNewAccount = new Group(dialogArea, SWT.NONE);
 		grpCreateNewAccount.setText("Create cluster");
-		grpCreateNewAccount.setBounds(5, 10, 437, 208);
+		grpCreateNewAccount.setBounds(5, 10, 437, 288);
 
 		Label lblChannelId = new Label(grpCreateNewAccount, SWT.NONE);
 		lblChannelId.setAlignment(SWT.RIGHT);
@@ -106,6 +111,24 @@ public class EditClusterDialog extends Dialog {
 		lblPort.setText("Port");
 		lblPort.setAlignment(SWT.RIGHT);
 		lblPort.setBounds(10, 164, 109, 17);
+		
+		Label lblUserName = new Label(grpCreateNewAccount, SWT.NONE);
+		lblUserName.setText("User Name");
+		lblUserName.setAlignment(SWT.RIGHT);
+		lblUserName.setBounds(10, 207, 109, 17);
+		
+		txtUserName = new Text(grpCreateNewAccount, SWT.BORDER);
+		txtUserName.setTextLimit(150);
+		txtUserName.setBounds(131, 197, 290, 27);
+		
+		Label lblPassword = new Label(grpCreateNewAccount, SWT.NONE);
+		lblPassword.setText("Password");
+		lblPassword.setAlignment(SWT.RIGHT);
+		lblPassword.setBounds(10, 248, 109, 17);
+		
+		txtPassword = new Text(grpCreateNewAccount, SWT.BORDER);
+		txtPassword.setTextLimit(150);
+		txtPassword.setBounds(131, 238, 290, 27);
 
 		initialData();
 		return dialogArea;
@@ -142,6 +165,8 @@ public class EditClusterDialog extends Dialog {
 			return;
 		}
 		port = Integer.parseInt(txtPort.getText());
+		userName = txtUserName.getText();
+		password = txtPassword.getText();
 		
 		super.okPressed();
 	}
@@ -152,6 +177,8 @@ public class EditClusterDialog extends Dialog {
 		txtClusterName.setText(object.getClusterName());
 		txtIpAddress.setText(object.getIpAddress());
 		txtPort.setText(Integer.toString(object.getPort()));
+		txtUserName.setText(object.getUserName());
+		txtPassword.setText(object.getPassword());
 	}
 
 	public String getClusterId() {
@@ -172,6 +199,13 @@ public class EditClusterDialog extends Dialog {
 
 	public int getRecordId() {
 		return recordId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+
+	public String getPassword() {
+		return password;
 	}
 	
 }

@@ -40,15 +40,21 @@ public class CreateClusterDialog extends Dialog {
 	private String clusterName;
 	private String ipAddress;
 	private int port;
+	private String userName;
+	private String password;
+	
 	private Text txtClusterId;
 	private Text txtClusterName;
 	private Text txtIpAddress;
 	private Text txtPort;
-	private String title;
-
+	private Text txtUserName;
+	private Text txtPassword;
+	
+	private String formTitle;
+	
 	public CreateClusterDialog(Shell parentShell, String title) {
 		super(parentShell);
-		this.title = title;
+		this.formTitle = title;
 	}
 
 	/*
@@ -73,7 +79,7 @@ public class CreateClusterDialog extends Dialog {
 
 		Group grpCreateNewAccount = new Group(dialogArea, SWT.NONE);
 		grpCreateNewAccount.setText("Create cluster");
-		grpCreateNewAccount.setBounds(5, 10, 427, 210);
+		grpCreateNewAccount.setBounds(5, 10, 427, 282);
 
 		Label lblChannelId = new Label(grpCreateNewAccount, SWT.NONE);
 		lblChannelId.setAlignment(SWT.RIGHT);
@@ -110,6 +116,24 @@ public class CreateClusterDialog extends Dialog {
 		lblPort.setText("Port");
 		lblPort.setAlignment(SWT.RIGHT);
 		lblPort.setBounds(10, 164, 109, 17);
+		
+		Label lblUsername = new Label(grpCreateNewAccount, SWT.NONE);
+		lblUsername.setText("UserName");
+		lblUsername.setAlignment(SWT.RIGHT);
+		lblUsername.setBounds(10, 207, 109, 17);
+		
+		txtUserName = new Text(grpCreateNewAccount, SWT.BORDER);
+		txtUserName.setTextLimit(150);
+		txtUserName.setBounds(131, 197, 290, 27);
+		
+		Label lblPassword = new Label(grpCreateNewAccount, SWT.NONE);
+		lblPassword.setText("Password");
+		lblPassword.setAlignment(SWT.RIGHT);
+		lblPassword.setBounds(10, 255, 109, 17);
+		
+		txtPassword = new Text(grpCreateNewAccount, SWT.BORDER);
+		txtPassword.setTextLimit(150);
+		txtPassword.setBounds(131, 245, 290, 27);
 
 		initialData();
 		return dialogArea;
@@ -125,7 +149,7 @@ public class CreateClusterDialog extends Dialog {
 	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText(this.title);
+		newShell.setText(this.formTitle);
 	}
 	/*
 	 * (non-Javadoc)
@@ -156,7 +180,8 @@ public class CreateClusterDialog extends Dialog {
 			dialog.open();
 			return;
 		}
-		
+		userName = txtUserName.getText();
+		password = txtPassword.getText();
 		super.okPressed();
 	}
 
@@ -178,5 +203,13 @@ public class CreateClusterDialog extends Dialog {
 
 	public int getPort() {
 		return port;
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+
+	public String getPassword() {
+		return password;
 	}
 }
