@@ -56,7 +56,6 @@ import spider.org.eclipse.wb.swt.ResourceManager;
 public class CreateMappingChannelDialog extends Dialog {
 	private Text txtTimeSync;
 	private Combo cbHome;
-	private Combo cbMonitor;
 	private Combo cbStatus;
 	private Combo cbDownload;
 	private Label lblDownloadCluster;
@@ -65,7 +64,6 @@ public class CreateMappingChannelDialog extends Dialog {
 	private Label lblUploadCid;
 	private Combo cbUpload;
 	Link linkHomeChanel;
-	Link linkMonitorChanel;
 	Object [] cHomeObject;
 	Object [] cMoniorObject;
 	Object [] downloadClusters;
@@ -98,12 +96,22 @@ public class CreateMappingChannelDialog extends Dialog {
 	private Text txtLogoPosX;
 	private Text txtLogoPosY;
 	private Label label;
+	Label lbMonitorContent;
+	
+	private final int MONITOR_CHANNEL		= 0;
+	private final int MONITOR_PLAYLIST		= 1;
+	private final int MONITOR_KEYWORK		= 2;
+	private final int LIST_ONLINE_VIDEO		= 3;
+	private final int LIST_OFFLINE_VIDEO	= 4;
 
 	SpiderDefine spiderDefine = new SpiderDefine();
 	MappingConfig mappingConfig = spiderDefine.new MappingConfig();
 	RenderConfig renderConfig = spiderDefine.new RenderConfig();
 	UploadConfig uploadConfig = spiderDefine.new UploadConfig();
 	private Button btnExport;
+	private Text txtMonitorContent;
+	private Label lblMappingType;
+	private Combo cbMappingType;
 
 	public CreateMappingChannelDialog(Shell parentShell) {
 		super(parentShell);
@@ -124,7 +132,7 @@ public class CreateMappingChannelDialog extends Dialog {
 		dialogArea.setLayout(null);
 
 		tabFolder = new TabFolder(dialogArea, SWT.NONE);
-		tabFolder.setBounds(10, 10, 509, 435);
+		tabFolder.setBounds(10, 10, 509, 445);
 
 		tbtmMappingConfig = new TabItem(tabFolder, SWT.NONE);
 		tbtmMappingConfig.setImage(ResourceManager.getPluginImage("org.spider.ui.eclipse.spidermanager", "icons/settings_16x16.png"));
@@ -139,25 +147,25 @@ public class CreateMappingChannelDialog extends Dialog {
 		lblChannelId.setText("C Home ID");
 		lblChannelId.setBounds(10, 31, 109, 17);
 
-		Label lblChannelName = new Label(grpCreateNewAccount, SWT.NONE);
-		lblChannelName.setAlignment(SWT.RIGHT);
-		lblChannelName.setText("C Monitor ID");
-		lblChannelName.setBounds(10, 88, 109, 17);
+		lbMonitorContent = new Label(grpCreateNewAccount, SWT.NONE);
+		lbMonitorContent.setAlignment(SWT.RIGHT);
+		lbMonitorContent.setText("C Monitor ID");
+		lbMonitorContent.setBounds(10, 135, 109, 17);
 
 		Label lblGoogleAccount = new Label(grpCreateNewAccount, SWT.NONE);
 		lblGoogleAccount.setAlignment(SWT.RIGHT);
 		lblGoogleAccount.setText("Time Sync");
-		lblGoogleAccount.setBounds(10, 141, 109, 17);
+		lblGoogleAccount.setBounds(10, 178, 109, 17);
 
 		txtTimeSync = new Text(grpCreateNewAccount, SWT.BORDER);
 		txtTimeSync.setText("600");
 		txtTimeSync.setTextLimit(150);
-		txtTimeSync.setBounds(131, 136, 290, 27);
+		txtTimeSync.setBounds(131, 173, 290, 27);
 
 		Label lblVideoIntro = new Label(grpCreateNewAccount, SWT.NONE);
 		lblVideoIntro.setAlignment(SWT.RIGHT);
 		lblVideoIntro.setText("Sync Status");
-		lblVideoIntro.setBounds(10, 187, 109, 17);
+		lblVideoIntro.setBounds(10, 224, 109, 17);
 
 		cbHome = new Combo(grpCreateNewAccount, SWT.NONE);
 		cbHome.addSelectionListener(new SelectionAdapter() {
@@ -170,21 +178,10 @@ public class CreateMappingChannelDialog extends Dialog {
 		cbHome.setItems(new String[] {});
 		cbHome.setBounds(132, 19, 289, 29);
 
-		cbStatus = new Combo(grpCreateNewAccount, SWT.NONE);
+		cbStatus = new Combo(grpCreateNewAccount, SWT.DROP_DOWN | SWT.READ_ONLY);
 		cbStatus.setItems(new String[] {"disable", "enable"});
-		cbStatus.setBounds(132, 182, 289, 29);
+		cbStatus.setBounds(132, 219, 289, 29);
 		cbStatus.select(0);
-
-		cbMonitor = new Combo(grpCreateNewAccount, SWT.NONE);
-		cbMonitor.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				String cName = getMonitorChannelName(cbMonitor.getText());
-				linkMonitorChanel.setText("Go to <a href=\"https://www.youtube.com/channel\">" + cName + "</a> channel." );
-			}
-		});
-		cbMonitor.setItems(new String[] {});
-		cbMonitor.setBounds(132, 77, 289, 29);
 
 		linkHomeChanel = new Link(grpCreateNewAccount, SWT.NONE);
 		linkHomeChanel.addSelectionListener(new SelectionAdapter() {
@@ -199,45 +196,71 @@ public class CreateMappingChannelDialog extends Dialog {
 		linkHomeChanel.setBounds(131, 54, 290, 17);
 		linkHomeChanel.setText("<a></a>");
 
-		linkMonitorChanel = new Link(grpCreateNewAccount, 0);
-		linkMonitorChanel.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				if(cbMonitor.getText().isEmpty() == false)
-				{
-					Program.launch("https://www.youtube.com/channel/" + cbMonitor.getText());	
-				}
-			}
-		});
-		linkMonitorChanel.setText("<a></a>");
-		linkMonitorChanel.setBounds(131, 113, 290, 17);
-
 		cbDownload = new Combo(grpCreateNewAccount, SWT.NONE);
 		cbDownload.setItems(new String[] {});
-		cbDownload.setBounds(132, 228, 289, 29);
+		cbDownload.setBounds(132, 265, 289, 29);
 
 		lblDownloadCluster = new Label(grpCreateNewAccount, SWT.NONE);
 		lblDownloadCluster.setText("Download CID");
 		lblDownloadCluster.setAlignment(SWT.RIGHT);
-		lblDownloadCluster.setBounds(10, 240, 109, 17);
+		lblDownloadCluster.setBounds(10, 277, 109, 17);
 
 		lblRenderCid = new Label(grpCreateNewAccount, SWT.NONE);
 		lblRenderCid.setText("Render CID");
 		lblRenderCid.setAlignment(SWT.RIGHT);
-		lblRenderCid.setBounds(10, 286, 109, 17);
+		lblRenderCid.setBounds(10, 323, 109, 17);
 
 		cbRender = new Combo(grpCreateNewAccount, SWT.NONE);
 		cbRender.setItems(new String[] {});
-		cbRender.setBounds(132, 274, 289, 29);
+		cbRender.setBounds(132, 311, 289, 29);
 
 		lblUploadCid = new Label(grpCreateNewAccount, SWT.NONE);
 		lblUploadCid.setText("Upload CID");
 		lblUploadCid.setAlignment(SWT.RIGHT);
-		lblUploadCid.setBounds(10, 329, 109, 17);
+		lblUploadCid.setBounds(10, 366, 109, 17);
 
 		cbUpload = new Combo(grpCreateNewAccount, SWT.NONE);
 		cbUpload.setItems(new String[] {});
-		cbUpload.setBounds(132, 317, 289, 29);
+		cbUpload.setBounds(132, 354, 289, 29);
+		
+		txtMonitorContent = new Text(grpCreateNewAccount, SWT.BORDER);
+		txtMonitorContent.setTextLimit(150);
+		txtMonitorContent.setBounds(131, 125, 290, 27);
+		
+		lblMappingType = new Label(grpCreateNewAccount, SWT.NONE);
+		lblMappingType.setText("Mapping Type");
+		lblMappingType.setAlignment(SWT.RIGHT);
+		lblMappingType.setBounds(10, 90, 109, 17);
+		
+		cbMappingType = new Combo(grpCreateNewAccount, SWT.DROP_DOWN | SWT.READ_ONLY);
+		cbMappingType.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int index = cbMappingType.getSelectionIndex();
+				switch (index) {
+				case MONITOR_CHANNEL:
+					lbMonitorContent.setText("CMonitor ID");
+					break;
+				case MONITOR_PLAYLIST:
+					lbMonitorContent.setText("Playlist ID");
+					break;
+				case MONITOR_KEYWORK:
+					lbMonitorContent.setText("Keywork");
+					break;
+				case LIST_ONLINE_VIDEO:
+					lbMonitorContent.setText("Video list");
+					break;
+				case LIST_OFFLINE_VIDEO:
+					lbMonitorContent.setText("Video location");
+					break;
+				default:
+					break;
+				}
+			}
+		});
+		cbMappingType.setItems(new String[] {"Monitor Channel", "Monitor Playlist", "Monitor Keyword", "List Online Video", "List Offline Video"});
+		cbMappingType.setBounds(131, 78, 289, 29);
+		cbMappingType.select(0);
 
 		tbtmRenderConfig = new TabItem(tabFolder, SWT.NONE);
 		tbtmRenderConfig.setImage(ResourceManager.getPluginImage("org.spider.ui.eclipse.spidermanager", "icons/render.png"));
@@ -408,8 +431,8 @@ public class CreateMappingChannelDialog extends Dialog {
 			return;
 		}
 
-		mappingConfig.cMonitorId = cbMonitor.getText();
-		if(mappingConfig.cMonitorId == null || mappingConfig.cMonitorId.isEmpty())
+		mappingConfig.monitorContent = txtMonitorContent.getText();
+		if(mappingConfig.monitorContent == null || mappingConfig.monitorContent.isEmpty())
 		{
 			MessageBox dialog =
 					new MessageBox(getShell(), SWT.ERROR | SWT.OK);
@@ -461,6 +484,7 @@ public class CreateMappingChannelDialog extends Dialog {
 
 	private void initialData()
 	{
+		lbMonitorContent.setText("CMonitor ID");
 		//Initial data
 		try {
 			if(cHomeObject == null)
@@ -472,7 +496,8 @@ public class CreateMappingChannelDialog extends Dialog {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
+		
+		/*
 		if(cMoniorObject == null)
 		{
 			try {
@@ -483,7 +508,8 @@ public class CreateMappingChannelDialog extends Dialog {
 				e1.printStackTrace();
 			}
 		}
-
+		*/
+		
 		if(downloadClusters == null)
 		{
 			try {
@@ -531,6 +557,7 @@ public class CreateMappingChannelDialog extends Dialog {
 		}
 	}
 
+	/*
 	private void setMonitorChannelData()
 	{
 		if(cMoniorObject != null)
@@ -545,6 +572,7 @@ public class CreateMappingChannelDialog extends Dialog {
 			}
 		}
 	}
+	*/
 
 	private void setDownloadCluster()
 	{

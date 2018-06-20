@@ -42,7 +42,6 @@ public class EditMonitorChannelDialog extends Dialog {
 	private Text txtChannelId;
 	private Text txtChannelName;
 	
-	private int id;
 	private String channelId;
 	private String channelName;
 	MonitorChannelObject object;
@@ -51,7 +50,6 @@ public class EditMonitorChannelDialog extends Dialog {
 	{
 		super(parentShell);
 		this.object = object;
-		id = object.getId();
 	}
 
 	/*
@@ -152,9 +150,5 @@ public class EditMonitorChannelDialog extends Dialog {
 
 	public String getChannelName() {
 		return channelName;
-	}
-	
-	public int getId() {
-		return id;
 	}
 }

@@ -50,9 +50,8 @@ public class MonitorChannelManagerView extends LogViewer {
 	private Action actViewChannel;
 	private SessionListener sessionListener;
 
-	public static final int COLUMN_ID 				= 0;
-	public static final int COLUMN_CHANNEL_ID 		= 1;
-	public static final int COLUMN_CHANNEL_NAME 	= 2;
+	public static final int COLUMN_CHANNEL_ID 		= 0;
+	public static final int COLUMN_CHANNEL_NAME 	= 1;
 
 	public MonitorChannelManagerView() {
 	}
@@ -212,14 +211,13 @@ public class MonitorChannelManagerView extends LogViewer {
 			return;
 		}
 		MonitorChannelObject selectedObj = new MonitorChannelObject(
-				Integer.parseInt(selection[0].getText(COLUMN_ID)),
 				selection[0].getText(COLUMN_CHANNEL_ID), 
 				selection[0].getText(COLUMN_CHANNEL_NAME));
 
 		final EditMonitorChannelDialog dlg = new EditMonitorChannelDialog(getViewSite().getShell(), selectedObj);
 		if (dlg.open() == Window.OK) {
 			try {
-				session.modifyMonitorChannel(dlg.getId(), dlg.getChannelId(), dlg.getChannelName());
+				session.modifyMonitorChannel(dlg.getChannelId(), dlg.getChannelName());
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (NXCException e) {
@@ -252,9 +250,8 @@ public class MonitorChannelManagerView extends LogViewer {
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
 					for (Object object : selection.toList()) {
-						int id = Integer.parseInt(((org.netxms.client.TableRow)object).get(COLUMN_ID).getValue());
 						String channelId = ((org.netxms.client.TableRow)object).get(COLUMN_CHANNEL_ID).getValue();
-						session.deleteMonitorChannel(id, channelId);
+						session.deleteMonitorChannel(channelId);
 						refreshData();
 					}
 				}

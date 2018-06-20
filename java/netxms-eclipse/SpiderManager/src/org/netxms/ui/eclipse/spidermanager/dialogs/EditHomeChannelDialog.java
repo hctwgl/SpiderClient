@@ -50,10 +50,9 @@ public class EditHomeChannelDialog extends Dialog {
 	private Text txtChannelName;
 	Combo cbGoogleAccount;
 
-	private int id;
 	private String cId;
 	private String cName; 
-	private int accountId;
+	private String googleUser;
 	HomeChannelObject object;
 	Object[] objGoogleAccount;
 	private NXCSession session;
@@ -62,7 +61,6 @@ public class EditHomeChannelDialog extends Dialog {
 	public EditHomeChannelDialog(Shell parentShell, HomeChannelObject object) {
 		super(parentShell);
 		this.object = object;
-		id = this.object.getId();
 		session = ConsoleSharedData.getSession();
 	}
 
@@ -89,6 +87,7 @@ public class EditHomeChannelDialog extends Dialog {
 		lblChannelId.setBounds(10, 31, 109, 17);
 
 		txtChannelId = new Text(grpCreateNewAccount, SWT.BORDER);
+		txtChannelId.setEnabled(false);
 		txtChannelId.setTextLimit(150);
 		txtChannelId.setBounds(131, 26, 290, 27);
 
@@ -126,7 +125,7 @@ public class EditHomeChannelDialog extends Dialog {
 		//initial data
 		txtChannelId.setText(this.object.getChannelId());
 		txtChannelName.setText(this.object.getChannelName());
-		cbGoogleAccount.setText("" + object.getGoogleAccountId());
+		cbGoogleAccount.setText(object.getGoogleUser());
 		
 		try {
 			if(objGoogleAccount == null)
@@ -149,7 +148,7 @@ public class EditHomeChannelDialog extends Dialog {
 				if(homeObj instanceof GoogleAccountObject)
 				{
 					//cbGoogleAccount.add(((GoogleAccountObject) homeObj).getUserName());
-					cbGoogleAccount.add(((GoogleAccountObject) homeObj).getId() + "");
+					cbGoogleAccount.add(((GoogleAccountObject) homeObj).getUserName());
 				}
 			}
 		}
@@ -165,7 +164,6 @@ public class EditHomeChannelDialog extends Dialog {
 	protected void okPressed() {
 		cId = txtChannelId.getText();
 		cName = txtChannelName.getText();
-		accountId = Integer.parseInt(cbGoogleAccount.getText());
 		if(cId == null || cId.isEmpty())
 		{
 			MessageBox dialog =
@@ -175,35 +173,17 @@ public class EditHomeChannelDialog extends Dialog {
 			dialog.open();
 			return;
 		}
-		if(accountId == -1)
+		googleUser = cbGoogleAccount.getText();
+		if(googleUser == null || googleUser.isEmpty())
 		{
 			MessageBox dialog =
 					new MessageBox(getShell(), SWT.ERROR | SWT.OK);
 			dialog.setText("Error");
-			dialog.setMessage("Google account does not exist!");
+			dialog.setMessage("Google user name must not empty!");
 			dialog.open();
 			return;
 		}
 		super.okPressed();
-	}
-	
-	private int getIdByAccount(String googleAccount)
-	{
-		int id = -1;
-		for ( Object it : objGoogleAccount) {
-			if(it instanceof GoogleAccountObject)
-			{
-				if(((GoogleAccountObject)it).getUserName().equals(googleAccount))
-				{
-					id = ((GoogleAccountObject)it).getId();	
-				}
-			}
-		}
-		return id;
-	}
-
-	public int getId() {
-		return id;
 	}
 
 	public String getcId() {
@@ -214,8 +194,8 @@ public class EditHomeChannelDialog extends Dialog {
 		return cName;
 	}
 
-	public int getAccountId() {
-		return accountId;
+	public String getGoogleUser() {
+		return googleUser;
 	}
 	
 }

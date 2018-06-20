@@ -3768,14 +3768,13 @@ public class NXCSession {
 		long baseIndex = NXCPCodes.VID_VARLIST_BASE;
 		for (int i = 0; i < count; i++, baseIndex += 10) 
 		{
-			int id = msg.getFieldAsInt32(baseIndex);
-			String userName = msg.getFieldAsString(baseIndex + 1);
-			String api = msg.getFieldAsString(baseIndex + 2);
-			String clientSecret = msg.getFieldAsString(baseIndex + 3);
-			String clientId = msg.getFieldAsString(baseIndex + 4);
-			int accountType = msg.getFieldAsInt32(baseIndex + 5);
-			String appname = msg.getFieldAsString(baseIndex + 6);
-			googleAccountList.put(id, new GoogleAccountObject(id, userName, 
+			String userName = msg.getFieldAsString(baseIndex);
+			String api = msg.getFieldAsString(baseIndex + 1);
+			String clientSecret = msg.getFieldAsString(baseIndex + 2);
+			String clientId = msg.getFieldAsString(baseIndex + 3);
+			int accountType = msg.getFieldAsInt32(baseIndex + 4);
+			String appname = msg.getFieldAsString(baseIndex + 5);
+			googleAccountList.put(i, new GoogleAccountObject(userName, 
 					api, clientSecret, clientId, accountType, appname));
 		}
 		return googleAccountList.values().toArray();
@@ -3797,11 +3796,10 @@ public class NXCSession {
 		long baseIndex = NXCPCodes.VID_VARLIST_BASE;
 		for (int i = 0; i < count; i++, baseIndex += 10) 
 		{
-			int id = msg.getFieldAsInt32(baseIndex);
-			String  cId = msg.getFieldAsString(baseIndex + 1);
-			String  cName = msg.getFieldAsString(baseIndex + 2);
-			int  gAccountId = msg.getFieldAsInt32(baseIndex + 3);
-			homeChannelList.put(id , new HomeChannelObject(id, cId, cName, gAccountId));
+			String  cId = msg.getFieldAsString(baseIndex);
+			String  cName = msg.getFieldAsString(baseIndex + 1);
+			String  googleUser = msg.getFieldAsString(baseIndex + 2);
+			homeChannelList.put(i , new HomeChannelObject(cId, cName, googleUser));
 		}
 		return homeChannelList.values().toArray();
 	}
@@ -3824,10 +3822,9 @@ public class NXCSession {
 		long baseIndex = NXCPCodes.VID_VARLIST_BASE;
 		for (int i = 0; i < count; i++, baseIndex += 10) 
 		{
-			int id = msg.getFieldAsInt32(baseIndex);
-			String  cId = msg.getFieldAsString(baseIndex + 1);
-			String  cName = msg.getFieldAsString(baseIndex + 2);
-			monitorChannleList.put(id , new MonitorChannelObject(id, cId, cName));
+			String  cId = msg.getFieldAsString(baseIndex);
+			String  cName = msg.getFieldAsString(baseIndex + 1);
+			monitorChannleList.put(i , new MonitorChannelObject(cId, cName));
 		}
 
 		return monitorChannleList.values().toArray();
@@ -3843,19 +3840,18 @@ public class NXCSession {
 
 		msg = waitForRCC(rqId);
 		long baseIndex = NXCPCodes.VID_VARLIST_BASE;
-		int  id = msg.getFieldAsInt32(baseIndex);
-		String  vIntro = msg.getFieldAsString(baseIndex + 1);
-		String  vOutro = msg.getFieldAsString(baseIndex + 2);
-		String  vLogo = msg.getFieldAsString(baseIndex + 3);
-		String  titleTemp = msg.getFieldAsString(baseIndex + 4);
-		String  descTemp = msg.getFieldAsString(baseIndex + 5);
-		String  tagTemp = msg.getFieldAsString(baseIndex + 6);	
-		int  enableIntro = msg.getFieldAsInt32(baseIndex + 7);
-		int  enableOutro = msg.getFieldAsInt32(baseIndex + 8);
-		int  enableLogo = msg.getFieldAsInt32(baseIndex + 9);
-		int  enableTitle = msg.getFieldAsInt32(baseIndex + 10);
-		int  enableDesc = msg.getFieldAsInt32(baseIndex + 11);
-		int  enableTags = msg.getFieldAsInt32(baseIndex + 12);
+		String  vIntro = msg.getFieldAsString(baseIndex);
+		String  vOutro = msg.getFieldAsString(baseIndex + 1);
+		String  vLogo = msg.getFieldAsString(baseIndex + 2);
+		String  titleTemp = msg.getFieldAsString(baseIndex + 3);
+		String  descTemp = msg.getFieldAsString(baseIndex + 4);
+		String  tagTemp = msg.getFieldAsString(baseIndex + 5);	
+		int  enableIntro = msg.getFieldAsInt32(baseIndex + 6);
+		int  enableOutro = msg.getFieldAsInt32(baseIndex + 7);
+		int  enableLogo = msg.getFieldAsInt32(baseIndex + 8);
+		int  enableTitle = msg.getFieldAsInt32(baseIndex + 9);
+		int  enableDesc = msg.getFieldAsInt32(baseIndex + 10);
+		int  enableTags = msg.getFieldAsInt32(baseIndex + 11);
 
 
 		SpiderDefine spiderDefine = new SpiderDefine();
@@ -3898,17 +3894,15 @@ public class NXCSession {
 		msg = waitForRCC(rqId);
 		int count = msg.getFieldAsInt32(NXCPCodes.VID_NUM_VARIABLES);
 		long baseIndex = NXCPCodes.VID_VARLIST_BASE;
-		int stt =0;
 		for (int i = 0; i < count; i++, baseIndex += 10) 
 		{
-			int recordId = msg.getFieldAsInt32(baseIndex);
-			String clusterId = msg.getFieldAsString(baseIndex + 1);
-			String clusterName = msg.getFieldAsString(baseIndex + 2);
-			String ipAddress = msg.getFieldAsString(baseIndex + 3);
-			int port = msg.getFieldAsInt32(baseIndex + 4);
-			String userName = msg.getFieldAsString(baseIndex + 5);
-			String password = msg.getFieldAsString(baseIndex + 6);
-			clusterObjectList.put(i , new ClusterObject(++stt, recordId, clusterId, 
+			String clusterId = msg.getFieldAsString(baseIndex);
+			String clusterName = msg.getFieldAsString(baseIndex + 1);
+			String ipAddress = msg.getFieldAsString(baseIndex + 2);
+			int port = msg.getFieldAsInt32(baseIndex + 3);
+			String userName = msg.getFieldAsString(baseIndex + 4);
+			String password = msg.getFieldAsString(baseIndex + 5);
+			clusterObjectList.put(i , new ClusterObject(clusterId, 
 					clusterName, ipAddress, port, userName, password));
 		}
 		return clusterObjectList.values().toArray();
@@ -3936,12 +3930,11 @@ public class NXCSession {
 				SessionNotification.GOOGLE_ACCOUNT_CHANGED, code));
 					}
 
-	public void modifyGoogleAccount(int id, String userName, String api, 
+	public void modifyGoogleAccount(String userName, String api, 
 			String clientSecret, String clientId,  int accountType, String appName) 
 					throws IOException, NXCException
 					{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_MOD_GOOGLE_ACCOUNT);
-		msg.setFieldInt32(SpiderCodes.VID_GOOGLE_RECORD_ID, id);
 		msg.setField(SpiderCodes.VID_GOOGLE_USER_NAME, userName);
 		msg.setField(SpiderCodes.VID_GOOGLE_API, api);
 		msg.setField(SpiderCodes.VID_GOOGLE_CLIENT_SECRET, clientSecret);
@@ -3957,13 +3950,13 @@ public class NXCSession {
 					SessionNotification.GOOGLE_ACCOUNT_CHANGED, code));
 					}
 
-	public void createHomeCHannel(String cId, String cName, int accountd) 
+	public void createHomeCHannel(String cId, String cName, String googleUser) 
 			throws IOException, NXCException
 			{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_CREATE_HOME_CHANNEL);
 		msg.setField(SpiderCodes.VID_HOME_CHANNEL_ID, cId);
 		msg.setField(SpiderCodes.VID_HOME_CHANNEL_NAME, cName);
-		msg.setFieldInt32(SpiderCodes.VID_HOME_CHANNEL_ACCOUNT_ID, accountd);
+		msg.setField(SpiderCodes.VID_HOME_CHANNEL_ACCOUNT_ID, googleUser);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());
 		final int code = msg.getFieldAsInt32(NXCPCodes.VID_RCC);
@@ -3972,14 +3965,13 @@ public class NXCSession {
 					SessionNotification.HOME_CHANNEL_CHANGED, code));
 			}
 
-	public void modifyHomeCHannel(int id, String cId, String cName, int accountId) 
+	public void modifyHomeCHannel(String cId, String cName, String googleUser) 
 			throws IOException, NXCException
 			{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_MOD_HOME_CHANNEL);
-		msg.setFieldInt32(SpiderCodes.VID_HOME_CHANNEL_RECORD_ID, id);
 		msg.setField(SpiderCodes.VID_HOME_CHANNEL_ID, cId);
 		msg.setField(SpiderCodes.VID_HOME_CHANNEL_NAME, cName);
-		msg.setFieldInt32(SpiderCodes.VID_HOME_CHANNEL_ACCOUNT_ID, accountId);
+		msg.setField(SpiderCodes.VID_HOME_CHANNEL_ACCOUNT_ID, googleUser);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());
 		final int code = msg.getFieldAsInt32(NXCPCodes.VID_RCC);
@@ -3988,10 +3980,10 @@ public class NXCSession {
 					SessionNotification.HOME_CHANNEL_CHANGED, code));
 			}
 
-	public void modifyCluster(int recordId, String clusterId, String clusterName, String ipAddress,
+	public void modifyCluster(String clusterId, String clusterName, String ipAddress,
 			int port, String userName, String password, int clusterType) 
-			throws IOException, NXCException
-			{
+					throws IOException, NXCException
+					{
 		NXCPMessage msg;
 		msg = newMessage(SpiderCodes.CMD_MOD_CLUSTER);
 		switch(clusterType)
@@ -4008,7 +4000,6 @@ public class NXCSession {
 		default:
 			return;
 		}
-		msg.setFieldInt32(SpiderCodes.VID_SPIDER_CLUSTER_RECORD_ID, recordId);
 		msg.setField(SpiderCodes.VID_SPIDER_CLUSTER_ID, clusterId);
 		msg.setField(SpiderCodes.VID_SPIDER_CLUSTER_NAME, clusterName);
 		msg.setField(SpiderCodes.VID_SPIDER_CLUSTER_IP_ADDRESS, ipAddress);
@@ -4036,7 +4027,7 @@ public class NXCSession {
 			}
 		}
 
-			}
+					}
 
 	public void createMonitorChannel(String cId, String cName) throws IOException, NXCException
 	{
@@ -4051,10 +4042,9 @@ public class NXCSession {
 					SessionNotification.MONITOR_CHANNEL_CHANGED, code));
 	}
 
-	public void modifyMonitorChannel(int id, String cId, String cName) throws IOException, NXCException
+	public void modifyMonitorChannel(String cId, String cName) throws IOException, NXCException
 	{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_MOD_MONITOR_CHANNEL);
-		msg.setFieldInt32(SpiderCodes.VID_MONITOR_CHANNEL_RECORD_ID, id);
 		msg.setField(SpiderCodes.VID_MONITOR_CHANNEL_ID, cId);
 		msg.setField(SpiderCodes.VID_MONITOR_CHANNEL_NAME, cName);
 		sendMessage(msg);
@@ -4072,10 +4062,11 @@ public class NXCSession {
 		int errorCode = 0;
 		//mapping config
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_CREATE_MAPPING_CHANNEL);
-		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_HOME_ID, mappingConfig.cHomeId);
-		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_MONITOR_ID, mappingConfig.cMonitorId);
-		msg.setFieldInt32(SpiderCodes.VID_MAPPING_CHANNEL_TIME_SYNC, (int) mappingConfig.timeSync);
+		msg.setFieldInt32(SpiderCodes.VID_MAPPING_CHANNEL_TYPE, mappingConfig.mappingType);
 		msg.setFieldInt32(SpiderCodes.VID_MAPPING_CHANNEL_STATUS_SYNC, mappingConfig.statusSync);
+		msg.setFieldInt32(SpiderCodes.VID_MAPPING_CHANNEL_TIME_SYNC, (int) mappingConfig.timeSync);
+		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_HOME_ID, mappingConfig.cHomeId);
+		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_MONITOR_CONTENT, mappingConfig.monitorContent);
 		msg.setFieldInt32(SpiderCodes.VID_MAPPING_CHANNEL_LAST_SYNC_TIME, 0);
 		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_DOWNLOAD_CLUSTER_ID, mappingConfig.downloadClusterId);
 		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_RENDER_CLUSTER_ID, mappingConfig.renderClusterId);
@@ -4166,10 +4157,11 @@ public class NXCSession {
 		//mapping config
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_MOD_MAPPING_CHANNEL);
 		msg.setFieldInt32(SpiderCodes.VID_MAPPING_CHANNEL_RECORD_ID, mappingConifg.mappingId);
-		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_HOME_ID, mappingConifg.cHomeId);
-		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_MONITOR_ID, mappingConifg.cMonitorId);
-		msg.setFieldInt32(SpiderCodes.VID_MAPPING_CHANNEL_TIME_SYNC, (int) mappingConifg.timeSync);
+		msg.setFieldInt32(SpiderCodes.VID_MAPPING_CHANNEL_TYPE, mappingConifg.mappingType);
 		msg.setFieldInt32(SpiderCodes.VID_MAPPING_CHANNEL_STATUS_SYNC, mappingConifg.statusSync);
+		msg.setFieldInt32(SpiderCodes.VID_MAPPING_CHANNEL_TIME_SYNC, (int) mappingConifg.timeSync);
+		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_HOME_ID, mappingConifg.cHomeId);
+		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_MONITOR_CONTENT, mappingConifg.monitorContent);
 		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_DOWNLOAD_CLUSTER_ID, mappingConifg.downloadClusterId);
 		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_RENDER_CLUSTER_ID, mappingConifg.renderClusterId);
 		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_UPLOAD_CLUSTER_ID, mappingConifg.uploadClusterId);
@@ -4200,10 +4192,10 @@ public class NXCSession {
 			sendNotification(new SessionNotification(SessionNotification.MAPPING_CHANNEL_CHANGED, code));
 					}
 
-	public void deleteGoogleAccount(int id) throws NXCException, IOException
+	public void deleteGoogleAccount(String userName) throws NXCException, IOException
 	{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_DEL_GOOGLE_ACCOUNT);
-		msg.setFieldInt32(SpiderCodes.VID_GOOGLE_RECORD_ID, id);
+		msg.setField(SpiderCodes.VID_GOOGLE_USER_NAME, userName);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());
 
@@ -4216,10 +4208,9 @@ public class NXCSession {
 					SessionNotification.GOOGLE_ACCOUNT_CHANGED, code));
 	}
 
-	public void deleteHomeChannel(int id, String channelID) throws IOException, NXCException
+	public void deleteHomeChannel(String channelID) throws IOException, NXCException
 	{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_DEL_HOME_CHANNEL);
-		msg.setFieldInt32(SpiderCodes.VID_HOME_CHANNEL_RECORD_ID, id);
 		msg.setField(SpiderCodes.VID_HOME_CHANNEL_ID, channelID);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());
@@ -4229,7 +4220,7 @@ public class NXCSession {
 					SessionNotification.HOME_CHANNEL_CHANGED, code));
 	}
 
-	public void deleteCluster(int recordId, int clusterType) throws IOException, NXCException
+	public void deleteCluster(String clusterId, int clusterType) throws IOException, NXCException
 	{
 		NXCPMessage msg;
 		msg = newMessage(SpiderCodes.CMD_DEL_CLUSTER);
@@ -4247,7 +4238,7 @@ public class NXCSession {
 		default:
 			return;
 		}
-		msg.setFieldInt32(SpiderCodes.VID_SPIDER_CLUSTER_RECORD_ID, recordId);
+		msg.setField(SpiderCodes.VID_SPIDER_CLUSTER_ID, clusterId);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());
 		final int code = msg.getFieldAsInt32(NXCPCodes.VID_RCC);
@@ -4270,10 +4261,9 @@ public class NXCSession {
 		}
 	}
 
-	public void deleteMonitorChannel(int id, String channelId) throws IOException, NXCException
+	public void deleteMonitorChannel(String channelId) throws IOException, NXCException
 	{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_DEL_MONITOR_CHANNEL);
-		msg.setFieldInt32(SpiderCodes.VID_MONITOR_CHANNEL_RECORD_ID, id);
 		msg.setField(SpiderCodes.VID_MONITOR_CHANNEL_ID, channelId);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());

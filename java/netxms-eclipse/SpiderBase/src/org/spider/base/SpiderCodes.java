@@ -66,11 +66,11 @@ public class SpiderCodes {
 	//mapping channel variable
 	public static final long VID_MAPPING_CHANNEL_START					= 1046;
 	public static final long VID_MAPPING_CHANNEL_RECORD_ID				= 1047;
-	public static final long VID_MAPPING_CHANNEL_HOME_ID				= 1048;
-	public static final long VID_MAPPING_CHANNEL_MONITOR_ID				= 1049;
+	public static final long VID_MAPPING_CHANNEL_TYPE					= 1048;
+	public static final long VID_MAPPING_CHANNEL_STATUS_SYNC			= 1049;
 	public static final long VID_MAPPING_CHANNEL_TIME_SYNC				= 1050;
-	public static final long VID_MAPPING_CHANNEL_STATUS_SYNC			= 1051;
-	public static final long VID_MAPPING_CHANNEL_ACTION					= 1052;
+	public static final long VID_MAPPING_CHANNEL_HOME_ID				= 1051;
+	public static final long VID_MAPPING_CHANNEL_MONITOR_CONTENT		= 1052;
 	public static final long VID_MAPPING_CHANNEL_LAST_SYNC_TIME			= 1053;
 	public static final long VID_MAPPING_CHANNEL_DOWNLOAD_CLUSTER_ID	= 1054;
 	public static final long VID_MAPPING_CHANNEL_RENDER_CLUSTER_ID		= 1055;

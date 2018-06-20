@@ -36,7 +36,6 @@ import org.spider.client.ClusterObject;
  */
 public class EditClusterDialog extends Dialog {
 	private ClusterObject object;
-	private int recordId;
 	private String clusterId;
 	private String clusterName;
 	private String ipAddress;
@@ -55,7 +54,6 @@ public class EditClusterDialog extends Dialog {
 	public EditClusterDialog(Shell parentShell, ClusterObject object, String title) {
 		super(parentShell);
 		this.object = object;
-		recordId = object.getRecordID();
 		this.title = title;
 	}
 
@@ -92,6 +90,7 @@ public class EditClusterDialog extends Dialog {
 		lblGoogleAccount.setBounds(10, 119, 109, 17);
 		
 		txtClusterId = new Text(grpCreateNewAccount, SWT.BORDER);
+		txtClusterId.setEnabled(false);
 		txtClusterId.setTextLimit(150);
 		txtClusterId.setBounds(131, 21, 290, 27);
 		
@@ -197,9 +196,6 @@ public class EditClusterDialog extends Dialog {
 		return port;
 	}
 
-	public int getRecordId() {
-		return recordId;
-	}
 	public String getUserName() {
 		return userName;
 	}

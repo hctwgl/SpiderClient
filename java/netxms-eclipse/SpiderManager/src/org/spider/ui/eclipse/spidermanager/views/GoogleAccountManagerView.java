@@ -50,13 +50,12 @@ public class GoogleAccountManagerView extends LogViewer {
 	private SessionListener sessionListener;
 
 	// Columns
-	public static final int COLUMN_ID 				= 0;
-	public static final int COLUMN_USER_NAME 		= 1;
-	public static final int COLUMN_API 				= 2;
-	public static final int COLUMN_CLIENT_SECRET 	= 3;
-	public static final int COLUMN_CLIENT_ID	 	= 4;
-	public static final int COLUMN_ACCOUNT_TYPE 	= 5;
-	public static final int COLUMN_APPNAME 			= 6;
+	public static final int COLUMN_USER_NAME 		= 0;
+	public static final int COLUMN_API 				= 1;
+	public static final int COLUMN_CLIENT_SECRET 	= 2;
+	public static final int COLUMN_CLIENT_ID	 	= 3;
+	public static final int COLUMN_ACCOUNT_TYPE 	= 4;
+	public static final int COLUMN_APPNAME 			= 5;
 
 
 	@Override
@@ -215,7 +214,6 @@ public class GoogleAccountManagerView extends LogViewer {
 			return;
 		}
 		GoogleAccountObject selectedObj = new GoogleAccountObject(
-				Integer.parseInt(selection[0].getText(COLUMN_ID)),
 				selection[0].getText(COLUMN_USER_NAME),
 				selection[0].getText(COLUMN_API),
 				selection[0].getText(COLUMN_CLIENT_SECRET),
@@ -230,7 +228,7 @@ public class GoogleAccountManagerView extends LogViewer {
 				@Override
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
-					session.modifyGoogleAccount(dlg.getId(), dlg.getUserName(), dlg.getApiKey(), 
+					session.modifyGoogleAccount(dlg.getUserName(), dlg.getApiKey(), 
 							dlg.getClientSecret(), dlg.getClientId(), dlg.getAccountType(),dlg.getAppName());
 				}
 
@@ -267,10 +265,8 @@ public class GoogleAccountManagerView extends LogViewer {
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
 					for (Object object : selection.toList()) {
-						System.out.println("delete home channel");
-						System.out.println(((org.netxms.client.TableRow)object).get(COLUMN_ID).getValue());
-						int id = Integer.parseInt(((org.netxms.client.TableRow)object).get(COLUMN_ID).getValue());
-						session.deleteGoogleAccount(id);
+						String userName = ((org.netxms.client.TableRow)object).get(COLUMN_USER_NAME).getValue();
+						session.deleteGoogleAccount(userName);
 						refreshData();
 					}
 				}

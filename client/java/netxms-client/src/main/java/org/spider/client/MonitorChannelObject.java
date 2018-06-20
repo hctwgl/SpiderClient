@@ -1,7 +1,6 @@
 package org.spider.client;
 
 public class MonitorChannelObject {
-	int id;
 	String channelId;
 	String channelName;
 	
@@ -10,19 +9,10 @@ public class MonitorChannelObject {
 		
 	}
 	
-	public MonitorChannelObject(int id, String channelId, String channelName) {
+	public MonitorChannelObject(String channelId, String channelName) {
 		super();
-		this.id = id;
 		this.channelId = channelId;
 		this.channelName = channelName;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getChannelId() {

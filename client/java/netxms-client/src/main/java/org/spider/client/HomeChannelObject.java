@@ -1,30 +1,28 @@
 package org.spider.client;
 
 public class HomeChannelObject {
-	int id;
+	public String getGoogleUser() {
+		return googleUser;
+	}
+
+	public void setGoogleUser(String googleUser) {
+		this.googleUser = googleUser;
+	}
+
 	String channelId;
 	String channelName;
-	int googleAccountId;
+	String googleUser;
 	
 	public HomeChannelObject()
 	{
 		
 	}
 	
-	public HomeChannelObject( int id, String channelId, String channelName, int googleAccountId)
+	public HomeChannelObject(String channelId, String channelName, String googleUser)
 	{
-		this.id = id;
 		this.channelId = channelId;
 		this.channelName = channelName;
-		this.googleAccountId = googleAccountId;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
+		this.googleUser = googleUser;
 	}
 
 	public String getChannelId() {
@@ -43,11 +41,4 @@ public class HomeChannelObject {
 		this.channelName = channelName;
 	}
 	
-	public int getGoogleAccountId() {
-		return googleAccountId;
-	}
-
-	public void setGoogleAccountId(int googleAccountId) {
-		this.googleAccountId = googleAccountId;
-	}
 }

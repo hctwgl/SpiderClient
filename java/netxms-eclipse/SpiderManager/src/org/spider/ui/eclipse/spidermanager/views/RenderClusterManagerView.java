@@ -99,7 +99,6 @@ public class RenderClusterManagerView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		session = ConsoleSharedData.getSession();
 		final String[] names = {
-				"Id",
 				"Cluster Id", 
 				"Cluster Name",
 				"IP Address",
@@ -107,7 +106,7 @@ public class RenderClusterManagerView extends ViewPart {
 				"UserName",
 				"Password"
 		};
-		final int[] widths = {40, 200, 200, 200, 120, 120, 120};
+		final int[] widths = {200, 200, 200, 120, 120, 120};
 		viewer = new SortableTableViewer(parent, names, widths, 0, SWT.UP, SortableTableViewer.DEFAULT_STYLE);
 
 		viewer.setContentProvider(new ArrayContentProvider());
@@ -342,7 +341,7 @@ public class RenderClusterManagerView extends ViewPart {
 					@Override
 					protected void runInternal(IProgressMonitor monitor)
 							throws Exception {
-						session.modifyCluster(dlg.getRecordId(), dlg.getClusterId(),  
+						session.modifyCluster(dlg.getClusterId(),  
 								dlg.getClusterName(), dlg.getIpAddress(), dlg.getPort(),  
 								dlg.getUserName(), dlg.getPassword(), SpiderCodes.CLUSTER_RENDER);
 					}
@@ -383,7 +382,7 @@ public class RenderClusterManagerView extends ViewPart {
 			if(firstElement instanceof ClusterObject)
 			{
 				ClusterObject object = (ClusterObject)firstElement;
-				session.deleteCluster(object.getRecordID(), SpiderCodes.CLUSTER_RENDER);
+				session.deleteCluster(object.getClusterId(), SpiderCodes.CLUSTER_RENDER);
 			}
 		}
 	}

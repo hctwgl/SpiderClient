@@ -20,7 +20,7 @@ public class OpenMappingChannelManager implements IWorkbenchWindowActionDelegate
 		if (window != null) {
 			try {
 				window.getActivePage().showView(MappingChannelManagerView.ID,
-						"ChannelMapping", IWorkbenchPage.VIEW_ACTIVATE); //$NON-NLS-1$
+						"MappingList", IWorkbenchPage.VIEW_ACTIVATE); //$NON-NLS-1$
 			} catch (PartInitException e) {
 				MessageDialogHelper.openError(
 						window.getShell(),

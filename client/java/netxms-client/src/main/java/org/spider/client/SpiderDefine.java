@@ -4,10 +4,11 @@ public class SpiderDefine {
 	public class MappingConfig
 	{
 		public int mappingId;
-		public String cHomeId; 
-		public String cMonitorId;  
-		public long    timeSync;
+		public int mappingType;
 		public int statusSync;
+		public long    timeSync;
+		public String cHomeId; 
+		public String monitorContent;	
 		public String downloadClusterId;
 		public String renderClusterId;
 		public String uploadClusterId;
@@ -16,14 +17,15 @@ public class SpiderDefine {
 			// TODO Auto-generated constructor stub
 		}
 
-		public MappingConfig(int mappingId, String cHomeId, String cMonitorId, 
-				long timeSync, int statusSync, String downloadClusterId,
+		public MappingConfig(int mappingId, int mappingType, int statusSync, long timeSync, 
+				String cHomeId, String monitorContent, String downloadClusterId, 
 				String renderClusterId, String uploadClusterId) {
 			this.mappingId = mappingId;
-			this.cHomeId = cHomeId;
-			this.cMonitorId = cMonitorId;
-			this.timeSync = timeSync;
+			this.mappingType = mappingType;
 			this.statusSync = statusSync;
+			this.timeSync = timeSync;
+			this.cHomeId = cHomeId;
+			this.monitorContent = monitorContent;
 			this.downloadClusterId = downloadClusterId;
 			this.renderClusterId = renderClusterId;
 			this.uploadClusterId = uploadClusterId;

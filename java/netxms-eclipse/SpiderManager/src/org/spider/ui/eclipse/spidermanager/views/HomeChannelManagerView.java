@@ -50,10 +50,9 @@ public class HomeChannelManagerView extends LogViewer {
 	private Action actViewHomeChanne;
 	private SessionListener sessionListener;
 
-	public static final int COLUMN_ID 				= 0;
-	public static final int COLUMN_CHANNEL_ID 		= 1;
-	public static final int COLUMN_CHANNEL_NAME 	= 2;
-	public static final int COLUMN_GOOGLE_ACCOUNT 	= 3;
+	public static final int COLUMN_CHANNEL_ID 		= 0;
+	public static final int COLUMN_CHANNEL_NAME 	= 1;
+	public static final int COLUMN_GOOGLE_ACCOUNT 	= 2;
 
 	public HomeChannelManagerView() {
 	}
@@ -190,7 +189,7 @@ public class HomeChannelManagerView extends LogViewer {
 				@Override
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
-					session.createHomeCHannel(dlg.getcId(), dlg.getcName(), dlg.getAccountId());
+					session.createHomeCHannel(dlg.getcId(), dlg.getcName(), dlg.getGoogleUser());
 				}
 
 				@Override
@@ -214,10 +213,9 @@ public class HomeChannelManagerView extends LogViewer {
 			return;
 		}
 		HomeChannelObject selectedObj = new HomeChannelObject(
-				Integer.parseInt(selection[0].getText(COLUMN_ID)),
 				selection[0].getText(COLUMN_CHANNEL_ID),
 				selection[0].getText(COLUMN_CHANNEL_NAME),
-				Integer.parseInt(selection[0].getText(COLUMN_GOOGLE_ACCOUNT)));
+				selection[0].getText(COLUMN_GOOGLE_ACCOUNT));
 
 		final EditHomeChannelDialog dlg = new EditHomeChannelDialog(getViewSite().getShell(), selectedObj);
 		if (dlg.open() == Window.OK) {
@@ -226,7 +224,7 @@ public class HomeChannelManagerView extends LogViewer {
 				@Override
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
-					session.modifyHomeCHannel(dlg.getId(), dlg.getcId(), dlg.getcName(), dlg.getAccountId());
+					session.modifyHomeCHannel(dlg.getcId(), dlg.getcName(), dlg.getGoogleUser());
 				}
 
 				@Override
@@ -262,9 +260,8 @@ public class HomeChannelManagerView extends LogViewer {
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
 					for (Object object : selection.toList()) {
-						int id = Integer.parseInt(((org.netxms.client.TableRow)object).get(COLUMN_ID).getValue());
 						String channelId = ((org.netxms.client.TableRow)object).get(COLUMN_CHANNEL_ID).getValue();
-						session.deleteHomeChannel(id, channelId);
+						session.deleteHomeChannel(channelId);
 						refreshData();
 					}
 				}

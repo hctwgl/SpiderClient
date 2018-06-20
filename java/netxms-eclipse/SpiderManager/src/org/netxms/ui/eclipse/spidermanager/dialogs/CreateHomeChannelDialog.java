@@ -45,13 +45,14 @@ import org.spider.client.GoogleAccountObject;
  * 
  */
 public class CreateHomeChannelDialog extends Dialog {
+
 	private Text txtChannelId;
 	private Text txtChannelName;
 	private Combo cbGoogleAccount;
 	
 	private String cId;
 	private String cName; 
-	private int accountId;
+	private String googleUser;
 	private NXCSession session;
 	Object[] objGoogleAccount;
 	
@@ -137,11 +138,10 @@ public class CreateHomeChannelDialog extends Dialog {
 		{
 			for(int i = 0; i < objGoogleAccount.length; i++)
 			{
-				Object homeObj = objGoogleAccount[i];
-				if(homeObj instanceof GoogleAccountObject)
+				Object googleObj = objGoogleAccount[i];
+				if(googleObj instanceof GoogleAccountObject)
 				{
-					//cbGoogleAccount.add(((GoogleAccountObject) homeObj).getUserName());
-					cbGoogleAccount.add(((GoogleAccountObject) homeObj).getId() + "");
+					cbGoogleAccount.add(((GoogleAccountObject) googleObj).getUserName());
 				}
 			}
 		}
@@ -161,7 +161,6 @@ public class CreateHomeChannelDialog extends Dialog {
 	protected void okPressed() {
 		cId = txtChannelId.getText();
 		cName = txtChannelName.getText();
-		accountId = Integer.parseInt(cbGoogleAccount.getText());
 		
 		if(cId == null || cId.isEmpty())
 		{
@@ -172,8 +171,8 @@ public class CreateHomeChannelDialog extends Dialog {
 			dialog.open();
 			return;
 		}
-		String googleAccount = cbGoogleAccount.getText();
-		if(googleAccount == null || googleAccount.isEmpty())
+		googleUser = cbGoogleAccount.getText();
+		if(googleUser == null || googleUser.isEmpty())
 		{
 			MessageBox dialog =
 					new MessageBox(getShell(), SWT.ERROR | SWT.OK);
@@ -182,15 +181,7 @@ public class CreateHomeChannelDialog extends Dialog {
 			dialog.open();
 			return;
 		}
-		if(accountId == -1)
-		{
-			MessageBox dialog =
-					new MessageBox(getShell(), SWT.ERROR | SWT.OK);
-			dialog.setText("Error");
-			dialog.setMessage("Google account does not exist!");
-			dialog.open();
-			return;
-		}
+		
 		super.okPressed();
 	}
 	
@@ -201,9 +192,9 @@ public class CreateHomeChannelDialog extends Dialog {
 	public String getcName() {
 		return cName;
 	}
-
-	public int getAccountId() {
-		return accountId;
-	}	
+	
+	public String getGoogleUser() {
+		return googleUser;
+	}
 	
 }

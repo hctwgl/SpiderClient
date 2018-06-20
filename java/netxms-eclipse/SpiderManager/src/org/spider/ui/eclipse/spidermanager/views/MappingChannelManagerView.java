@@ -52,15 +52,15 @@ public class MappingChannelManagerView extends LogViewer {
 	private Action actViewMonitorChannel;
 	private SessionListener sessionListener;
 
-	public static final int COLUMN_ID 					= 0;
-	public static final int COLUMN_HOME_CHANNEL_ID 		= 1;
-	public static final int COLUMN_MONITOR_CHANNEL_ID 	= 2;
+	public static final int COLUMN_MAPPING_ID 			= 0;
+	public static final int COLUMN_MAPPING_TYPE 		= 1;
+	public static final int COLUMN_STATUS_SYNC		 	= 2;
 	public static final int COLUMN_TIME_SYNC 			= 3;
-	public static final int COLUMN_STATUS_SYNC 			= 4;
-	public static final int COLUMN_LAST_SYNC_TIME 		= 5;
-	public static final int COLUMN_DOWNLOAD_ID		 	= 6;
-	public static final int COLUMN_RENDER_ID		 	= 7;
-	public static final int COLUMN_UPLOAD_ID		 	= 8;
+	public static final int COLUMN_HOME_CHANNEL_ID		= 4;
+	public static final int COLUMN_MONITOR_CONTENT		= 5;
+	public static final int COLUMN_DOWNLOAD_CLUSTER		= 6;
+	public static final int COLUMN_RENDER_CLUSTER 		= 7;
+	public static final int COLUMN_UPLOAD_CLUSTER 		= 8;
 	
 	public static final int HOME_CHANNLE_TYPE 			= 0;
 	public static final int MONITOR_CHANNLE_TYPE 		= 1;
@@ -226,15 +226,16 @@ public class MappingChannelManagerView extends LogViewer {
 		}
 		SpiderDefine spiderDefine = new SpiderDefine();
 		MappingConfig mappingConfig = spiderDefine.new MappingConfig(
-				Integer.parseInt(selection[0].getText(COLUMN_ID)), 
-				selection[0].getText(COLUMN_HOME_CHANNEL_ID),
-				selection[0].getText(COLUMN_MONITOR_CHANNEL_ID),
-				Long.parseLong(selection[0].getText(COLUMN_TIME_SYNC)),
+				Integer.parseInt(selection[0].getText(COLUMN_MAPPING_ID)),
+				Integer.parseInt(selection[0].getText(COLUMN_MAPPING_TYPE)),
 				Integer.parseInt(selection[0].getText(COLUMN_STATUS_SYNC)),
-				selection[0].getText(COLUMN_DOWNLOAD_ID), 
-				selection[0].getText(COLUMN_RENDER_ID), 
-				selection[0].getText(COLUMN_UPLOAD_ID));
-		int mappingId = Integer.parseInt(selection[0].getText(COLUMN_ID));
+				Long.parseLong(selection[0].getText(COLUMN_TIME_SYNC)),
+				selection[0].getText(COLUMN_HOME_CHANNEL_ID),
+				selection[0].getText(COLUMN_MONITOR_CONTENT),
+				selection[0].getText(COLUMN_DOWNLOAD_CLUSTER), 
+				selection[0].getText(COLUMN_RENDER_CLUSTER), 
+				selection[0].getText(COLUMN_UPLOAD_CLUSTER));
+		int mappingId = Integer.parseInt(selection[0].getText(COLUMN_MAPPING_ID));
 		MappingChannelObject object = null;
 		try {
 			object = (MappingChannelObject) session.getMappingConfigById(mappingId);
@@ -281,9 +282,9 @@ public class MappingChannelManagerView extends LogViewer {
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
 					for (Object object : selection.toList()) {
-						int id = Integer.parseInt(((org.netxms.client.TableRow)object).get(COLUMN_ID).getValue());
-						String downloadCluster = ((org.netxms.client.TableRow)object).get(COLUMN_DOWNLOAD_ID).getValue();
-						String uploadCluster = ((org.netxms.client.TableRow)object).get(COLUMN_UPLOAD_ID).getValue();
+						int id = Integer.parseInt(((org.netxms.client.TableRow)object).get(COLUMN_MAPPING_ID).getValue());
+						String downloadCluster = ((org.netxms.client.TableRow)object).get(COLUMN_DOWNLOAD_CLUSTER).getValue();
+						String uploadCluster = ((org.netxms.client.TableRow)object).get(COLUMN_UPLOAD_CLUSTER).getValue();
 						String cHomeId = ((org.netxms.client.TableRow)object).get(COLUMN_HOME_CHANNEL_ID).getValue();
 						
 						session.deleteMappingChannel(id, downloadCluster, uploadCluster, cHomeId);
@@ -314,10 +315,10 @@ public class MappingChannelManagerView extends LogViewer {
 		String channelId;
 		if(channelType == HOME_CHANNLE_TYPE)
 		{
-			channelId = selection[0].getText(COLUMN_HOME_CHANNEL_ID);	
+			channelId = selection[0].getText(COLUMN_HOME_CHANNEL_ID);
+			Program.launch("https://www.youtube.com/channel/" + channelId);
 		}else{
-			channelId = selection[0].getText(COLUMN_MONITOR_CHANNEL_ID);
+			//channelId = selection[0].getText(COLUMN_MONITOR_CHANNEL_ID);
 		}
-		Program.launch("https://www.youtube.com/channel/" + channelId);
 	}
 }

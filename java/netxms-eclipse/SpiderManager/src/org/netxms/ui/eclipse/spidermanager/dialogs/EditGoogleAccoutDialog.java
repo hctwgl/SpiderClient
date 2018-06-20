@@ -46,7 +46,6 @@ public class EditGoogleAccoutDialog extends Dialog {
 	private Text txtApiKey;
 	Combo cbAccountType;
 	
-	private int id;
 	private String userName;
 	private String clientSecret;
 	private String clientId;
@@ -76,12 +75,13 @@ public class EditGoogleAccoutDialog extends Dialog {
 		grpCreateNewAccount.setText("Create new account");
 		grpCreateNewAccount.setBounds(5, 10, 435, 236);
 
-		Label label = new Label(grpCreateNewAccount, SWT.NONE);
-		label.setAlignment(SWT.RIGHT);
-		label.setText("Email");
-		label.setBounds(10, 31, 95, 17);
+		Label lblUsername = new Label(grpCreateNewAccount, SWT.NONE);
+		lblUsername.setAlignment(SWT.RIGHT);
+		lblUsername.setText("User Name");
+		lblUsername.setBounds(10, 31, 95, 17);
 
 		txtUserName = new Text(grpCreateNewAccount, SWT.BORDER);
+		txtUserName.setEnabled(false);
 		txtUserName.setTextLimit(150);
 		txtUserName.setBounds(111, 26, 310, 27);
 
@@ -136,7 +136,6 @@ public class EditGoogleAccoutDialog extends Dialog {
 	
 	private void initData()
 	{
-		id = object.getId();
 		txtUserName.setText(object.getUserName());
 		txtClientSecret.setText(object.getClientSecret());
 		txtClientId.setText(object.getClientId());
@@ -209,10 +208,6 @@ public class EditGoogleAccoutDialog extends Dialog {
 
 	public int getAccountType() {
 		return accountType;
-	}
-
-	public int getId() {
-		return id;
 	}
 
 	public String getClientId() {

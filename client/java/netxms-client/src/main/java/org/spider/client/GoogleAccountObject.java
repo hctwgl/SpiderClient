@@ -1,7 +1,6 @@
 package org.spider.client;
 
 public class GoogleAccountObject {
-	private int id;
 	private String userName;
 	private String api;
 	private String clientSecret;
@@ -14,24 +13,15 @@ public class GoogleAccountObject {
 		
 	}
 	
-	public GoogleAccountObject(int id, String userName, String api, 
-			String clientSecret, String clientId, int accountType, String appName)
+	public GoogleAccountObject(String userName, String api, String clientSecret, 
+			String clientId, int accountType, String appName)
 	{
-		this.id = id;
 		this.userName = userName;
 		this.api =  api;
 		this.clientSecret = clientSecret;
 		this.clientId = clientId;
 		this.accountType = accountType;
 		this.appName = appName;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getUserName() {

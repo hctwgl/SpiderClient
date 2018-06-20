@@ -58,13 +58,12 @@ public class DownloadClusterManagerView extends ViewPart {
 	private NXCSession session;
 	private SessionListener sessionListener;
 	
-	public static final int COLUMN_RECORD_ID 			= 0;
-	public static final int COLUMN_CLUSTER_ID 			= 1;
-	public static final int COLUMN_CLUSTER_NAME 		= 2;
-	public static final int COLUMN_IP_ADDRESS 			= 3;
-	public static final int COLUMN_PORT 				= 4;
-	public static final int COLUMN_USER_NAME 			= 5;
-	public static final int COLUMN_PASSWORD 			= 6;
+	public static final int COLUMN_CLUSTER_ID 			= 0;
+	public static final int COLUMN_CLUSTER_NAME 		= 1;
+	public static final int COLUMN_IP_ADDRESS 			= 2;
+	public static final int COLUMN_PORT 				= 3;
+	public static final int COLUMN_USER_NAME 			= 4;
+	public static final int COLUMN_PASSWORD 			= 5;
 
 
 	/*
@@ -107,7 +106,6 @@ public class DownloadClusterManagerView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		session = ConsoleSharedData.getSession();
 		final String[] names = {
-				"Id",
 				"Cluster Id", 
 				"Cluster Name",
 				"IP Address",
@@ -115,7 +113,7 @@ public class DownloadClusterManagerView extends ViewPart {
 				"User Name", 
 				"Password"
 		};
-		final int[] widths = {40, 200, 200, 200, 120, 120, 120};
+		final int[] widths = {200, 200, 200, 120, 120, 120};
 		viewer = new SortableTableViewer(parent, names, widths, 0, SWT.UP, SortableTableViewer.DEFAULT_STYLE);
 
 		viewer.setContentProvider(new ArrayContentProvider());
@@ -350,7 +348,7 @@ public class DownloadClusterManagerView extends ViewPart {
 					@Override
 					protected void runInternal(IProgressMonitor monitor)
 							throws Exception {
-						session.modifyCluster(dlg.getRecordId(), dlg.getClusterId(), dlg.getClusterName(), 
+						session.modifyCluster(dlg.getClusterId(), dlg.getClusterName(), 
 								dlg.getIpAddress(), dlg.getPort(), dlg.getUserName(), dlg.getPassword(), 
 								SpiderCodes.CLUSTER_DOWNLOAD);
 					}
@@ -393,7 +391,7 @@ public class DownloadClusterManagerView extends ViewPart {
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
 					for (Object object : selection.toList()) {					
-						session.deleteCluster(((ClusterObject)object).getRecordID(), 
+						session.deleteCluster(((ClusterObject)object).getClusterId(), 
 								SpiderCodes.CLUSTER_DOWNLOAD);
 					}
 				}
