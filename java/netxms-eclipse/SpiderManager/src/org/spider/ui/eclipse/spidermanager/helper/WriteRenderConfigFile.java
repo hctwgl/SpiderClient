@@ -43,15 +43,30 @@ public class WriteRenderConfigFile {
 		config.appendChild(logo);
 
 		Element enableIntro = doc.createElement("enableIntro");
-		enableIntro.appendChild(doc.createTextNode("" + renderCfg.enableIntro));
+		if(renderCfg.enableIntro)
+		{
+			enableIntro.appendChild(doc.createTextNode("" + 1));	
+		}else{
+			enableIntro.appendChild(doc.createTextNode("" + 0));
+		}
 		config.appendChild(enableIntro);
 		
 		Element enableOutro = doc.createElement("enableOutro");
-		enableOutro.appendChild(doc.createTextNode("" + renderCfg.enableOutro));
+		if(renderCfg.enableOutro)
+		{
+			enableOutro.appendChild(doc.createTextNode("" + 1));	
+		}else{
+			enableOutro.appendChild(doc.createTextNode("" + 0));
+		}
 		config.appendChild(enableOutro);
 		
 		Element enableLogo = doc.createElement("enableLogo");
-		enableLogo.appendChild(doc.createTextNode("" + renderCfg.enableLogo));
+		if(renderCfg.enableLogo)
+		{
+			enableLogo.appendChild(doc.createTextNode("" + 1));	
+		}else{
+			enableLogo.appendChild(doc.createTextNode("" + 0));
+		}
 		config.appendChild(enableLogo);
 
 		// write the content into xml file

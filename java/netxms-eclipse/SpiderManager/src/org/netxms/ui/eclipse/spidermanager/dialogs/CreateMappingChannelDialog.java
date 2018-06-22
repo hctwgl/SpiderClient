@@ -18,7 +18,10 @@
  */
 package org.netxms.ui.eclipse.spidermanager.dialogs;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -97,7 +100,8 @@ public class CreateMappingChannelDialog extends Dialog {
 	private Text txtLogoPosY;
 	private Label label;
 	Label lbMonitorContent;
-	
+	Button btnImportMonitor;
+
 	private final int MONITOR_CHANNEL		= 0;
 	private final int MONITOR_PLAYLIST		= 1;
 	private final int MONITOR_KEYWORK		= 2;
@@ -132,7 +136,7 @@ public class CreateMappingChannelDialog extends Dialog {
 		dialogArea.setLayout(null);
 
 		tabFolder = new TabFolder(dialogArea, SWT.NONE);
-		tabFolder.setBounds(10, 10, 509, 445);
+		tabFolder.setBounds(10, 10, 520, 445);
 
 		tbtmMappingConfig = new TabItem(tabFolder, SWT.NONE);
 		tbtmMappingConfig.setImage(ResourceManager.getPluginImage("org.spider.ui.eclipse.spidermanager", "icons/settings_16x16.png"));
@@ -222,16 +226,16 @@ public class CreateMappingChannelDialog extends Dialog {
 		cbUpload = new Combo(grpCreateNewAccount, SWT.NONE);
 		cbUpload.setItems(new String[] {});
 		cbUpload.setBounds(132, 354, 289, 29);
-		
+
 		txtMonitorContent = new Text(grpCreateNewAccount, SWT.BORDER);
 		txtMonitorContent.setTextLimit(150);
 		txtMonitorContent.setBounds(131, 125, 290, 27);
-		
+
 		lblMappingType = new Label(grpCreateNewAccount, SWT.NONE);
 		lblMappingType.setText("Mapping Type");
 		lblMappingType.setAlignment(SWT.RIGHT);
 		lblMappingType.setBounds(10, 90, 109, 17);
-		
+
 		cbMappingType = new Combo(grpCreateNewAccount, SWT.DROP_DOWN | SWT.READ_ONLY);
 		cbMappingType.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -240,18 +244,23 @@ public class CreateMappingChannelDialog extends Dialog {
 				switch (index) {
 				case MONITOR_CHANNEL:
 					lbMonitorContent.setText("CMonitor ID");
+					btnImportMonitor.setVisible(false);
 					break;
 				case MONITOR_PLAYLIST:
 					lbMonitorContent.setText("Playlist ID");
+					btnImportMonitor.setVisible(false);
 					break;
 				case MONITOR_KEYWORK:
 					lbMonitorContent.setText("Keywork");
+					btnImportMonitor.setVisible(false);
 					break;
 				case LIST_ONLINE_VIDEO:
 					lbMonitorContent.setText("Video list");
+					btnImportMonitor.setVisible(true);
 					break;
 				case LIST_OFFLINE_VIDEO:
 					lbMonitorContent.setText("Video location");
+					btnImportMonitor.setVisible(true);
 					break;
 				default:
 					break;
@@ -261,6 +270,36 @@ public class CreateMappingChannelDialog extends Dialog {
 		cbMappingType.setItems(new String[] {"Monitor Channel", "Monitor Playlist", "Monitor Keyword", "List Online Video", "List Offline Video"});
 		cbMappingType.setBounds(131, 78, 289, 29);
 		cbMappingType.select(0);
+
+		btnImportMonitor = new Button(grpCreateNewAccount, SWT.NONE);
+		btnImportMonitor.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog dlg = new FileDialog(getShell(), SWT.SINGLE);
+				dlg.setText("Select video list file");
+				String[] filterExt = { "*.txt", "*.*" };
+				dlg.setFilterExtensions(filterExt);
+				if (dlg.open() != null) {
+					String filePath = dlg.getFilterPath();
+					String fileName = dlg.getFileName();
+					String fileData = "";
+					File file = new File(filePath + "/" + fileName);
+					Scanner sc;
+					try {
+						Scanner scanner = sc = new Scanner(file);
+						while (sc.hasNextLine())
+							fileData += sc.nextLine() + ";";
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					txtMonitorContent.setText(fileData);
+				}
+			}
+		});
+		btnImportMonitor.setBounds(421, 125, 85, 29);
+		btnImportMonitor.setText("Import");
 
 		tbtmRenderConfig = new TabItem(tabFolder, SWT.NONE);
 		tbtmRenderConfig.setImage(ResourceManager.getPluginImage("org.spider.ui.eclipse.spidermanager", "icons/render.png"));
@@ -329,10 +368,12 @@ public class CreateMappingChannelDialog extends Dialog {
 				String[] filterExt = { "*.xml", "*.*" };
 				dlg.setFilterExtensions(filterExt);
 				if (dlg.open() != null) {
+					String filePath = dlg.getFilterPath();
 					String names = dlg.getFileName();
+
 					System.out.println(names);
 					ReadRenderConfigFile readXML = new ReadRenderConfigFile();
-					RenderConfig renderCfg = readXML.read(names);
+					RenderConfig renderCfg = readXML.read(filePath + "/" + names);
 					txtVideoIntro.setText(renderCfg.vIntro);
 					txtVideoOutro.setText(renderCfg.vOutro);
 					txtLogo.setText(renderCfg.vLogo);
@@ -441,6 +482,7 @@ public class CreateMappingChannelDialog extends Dialog {
 			dialog.open();
 			return;
 		}
+		System.out.println("Monitor result = " + mappingConfig.monitorContent);
 
 		String strTime = txtTimeSync.getText();
 		if(strTime == null || strTime.isEmpty())
@@ -464,6 +506,7 @@ public class CreateMappingChannelDialog extends Dialog {
 		mappingConfig.downloadClusterId = cbDownload.getText();
 		mappingConfig.renderClusterId = cbRender.getText();
 		mappingConfig.uploadClusterId = cbUpload.getText();
+		mappingConfig.mappingType = cbMappingType.getSelectionIndex();
 
 		renderConfig.vIntro = txtVideoIntro.getText();
 		renderConfig.vOutro = txtVideoOutro.getText();
@@ -485,6 +528,7 @@ public class CreateMappingChannelDialog extends Dialog {
 	private void initialData()
 	{
 		lbMonitorContent.setText("CMonitor ID");
+		btnImportMonitor.setVisible(false);
 		//Initial data
 		try {
 			if(cHomeObject == null)
@@ -496,7 +540,7 @@ public class CreateMappingChannelDialog extends Dialog {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 		/*
 		if(cMoniorObject == null)
 		{
@@ -508,8 +552,8 @@ public class CreateMappingChannelDialog extends Dialog {
 				e1.printStackTrace();
 			}
 		}
-		*/
-		
+		 */
+
 		if(downloadClusters == null)
 		{
 			try {
@@ -572,7 +616,7 @@ public class CreateMappingChannelDialog extends Dialog {
 			}
 		}
 	}
-	*/
+	 */
 
 	private void setDownloadCluster()
 	{
