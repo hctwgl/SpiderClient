@@ -228,7 +228,7 @@ public class CreateMappingChannelDialog extends Dialog {
 		cbUpload.setBounds(132, 354, 289, 29);
 
 		txtMonitorContent = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtMonitorContent.setTextLimit(150);
+		txtMonitorContent.setTextLimit(1000);
 		txtMonitorContent.setBounds(131, 125, 290, 27);
 
 		lblMappingType = new Label(grpCreateNewAccount, SWT.NONE);
@@ -316,6 +316,7 @@ public class CreateMappingChannelDialog extends Dialog {
 		lblNewLabel_1.setText("Video Intro");
 
 		txtVideoIntro = new Text(grpRender, SWT.BORDER);
+		txtVideoIntro.setTextLimit(145);
 		txtVideoIntro.setBounds(112, 22, 342, 27);
 
 		cbIntro = new Button(grpRender, SWT.CHECK);
@@ -327,6 +328,7 @@ public class CreateMappingChannelDialog extends Dialog {
 		lblVideoOutro.setBounds(10, 66, 96, 17);
 
 		txtVideoOutro = new Text(grpRender, SWT.BORDER);
+		txtVideoOutro.setTextLimit(145);
 		txtVideoOutro.setBounds(112, 61, 342, 27);
 
 		cbOutro = new Button(grpRender, SWT.CHECK);
@@ -338,6 +340,7 @@ public class CreateMappingChannelDialog extends Dialog {
 		lblVideoLogo.setBounds(10, 105, 96, 17);
 
 		txtLogo = new Text(grpRender, SWT.BORDER);
+		txtLogo.setTextLimit(145);
 		txtLogo.setBounds(112, 100, 342, 27);
 
 		cbLogo = new Button(grpRender, SWT.CHECK);
@@ -422,6 +425,7 @@ public class CreateMappingChannelDialog extends Dialog {
 		lblNewLabel.setText("Title template");
 
 		txtTitle = new Text(grpAbc, SWT.BORDER | SWT.WRAP);
+		txtTitle.setTextLimit(100);
 		txtTitle.setBounds(138, 31, 301, 102);
 
 		cbTitle = new Button(grpAbc, SWT.CHECK);
@@ -444,9 +448,11 @@ public class CreateMappingChannelDialog extends Dialog {
 		cbTag.setBounds(445, 312, 26, 24);
 
 		txtDesc = new Text(grpAbc, SWT.BORDER | SWT.WRAP);
+		txtDesc.setTextLimit(1995);
 		txtDesc.setBounds(138, 148, 301, 102);
 
 		txtTags = new Text(grpAbc, SWT.BORDER | SWT.WRAP);
+		txtTags.setTextLimit(495);
 		txtTags.setBounds(138, 271, 301, 102);
 
 		initialData();

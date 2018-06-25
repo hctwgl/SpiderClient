@@ -97,11 +97,11 @@ public class CreateClusterDialog extends Dialog {
 		lblGoogleAccount.setBounds(10, 119, 109, 17);
 		
 		txtClusterId = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtClusterId.setTextLimit(150);
+		txtClusterId.setTextLimit(40);
 		txtClusterId.setBounds(131, 21, 290, 27);
 		
 		txtClusterName = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtClusterName.setTextLimit(150);
+		txtClusterName.setTextLimit(145);
 		txtClusterName.setBounds(131, 66, 290, 27);
 		
 		txtIpAddress = new Text(grpCreateNewAccount, SWT.BORDER);
@@ -109,7 +109,7 @@ public class CreateClusterDialog extends Dialog {
 		txtIpAddress.setBounds(131, 109, 290, 27);
 		
 		txtPort = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtPort.setTextLimit(150);
+		txtPort.setTextLimit(40);
 		txtPort.setBounds(131, 154, 290, 27);
 		
 		Label lblPort = new Label(grpCreateNewAccount, SWT.NONE);
@@ -123,11 +123,12 @@ public class CreateClusterDialog extends Dialog {
 		lblUsername.setBounds(10, 207, 109, 17);
 		
 		txtUserName = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtUserName.setTextLimit(150);
+		txtUserName.setTextLimit(40);
 		txtUserName.setBounds(131, 197, 290, 27);
 		
 		Label lblPassword = new Label(grpCreateNewAccount, SWT.NONE);
 		lblPassword.setText("Password");
+		txtPassword.setTextLimit(40);
 		lblPassword.setAlignment(SWT.RIGHT);
 		lblPassword.setBounds(10, 255, 109, 17);
 		

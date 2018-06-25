@@ -91,7 +91,7 @@ public class EditGoogleAccoutDialog extends Dialog {
 		label_1.setBounds(10, 65, 95, 17);
 
 		txtClientSecret = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtClientSecret.setTextLimit(150);
+		txtClientSecret.setTextLimit(145);
 		txtClientSecret.setBounds(111, 60, 310, 27);
 
 		Label label_2 = new Label(grpCreateNewAccount, SWT.NONE);
@@ -100,7 +100,7 @@ public class EditGoogleAccoutDialog extends Dialog {
 		label_2.setBounds(10, 132, 95, 17);
 
 		txtAppName = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtAppName.setTextLimit(150);
+		txtAppName.setTextLimit(40);
 		txtAppName.setBounds(111, 127, 310, 27);
 
 		Label label_3 = new Label(grpCreateNewAccount, SWT.NONE);
@@ -109,7 +109,7 @@ public class EditGoogleAccoutDialog extends Dialog {
 		label_3.setBounds(10, 165, 95, 17);
 
 		txtApiKey = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtApiKey.setTextLimit(150);
+		txtApiKey.setTextLimit(145);
 		txtApiKey.setBounds(111, 160, 310, 27);
 		
 		Label lblAccountType = new Label(grpCreateNewAccount, SWT.NONE);
@@ -128,7 +128,7 @@ public class EditGoogleAccoutDialog extends Dialog {
 		lblClientId.setBounds(10, 99, 95, 17);
 		
 		txtClientId = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtClientId.setTextLimit(150);
+		txtClientId.setTextLimit(145);
 		txtClientId.setBounds(111, 94, 310, 27);
 		initData();
 		return dialogArea;

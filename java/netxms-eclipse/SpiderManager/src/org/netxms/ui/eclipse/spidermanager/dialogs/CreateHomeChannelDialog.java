@@ -84,7 +84,7 @@ public class CreateHomeChannelDialog extends Dialog {
 		lblChannelId.setBounds(10, 31, 109, 17);
 
 		txtChannelId = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtChannelId.setTextLimit(150);
+		txtChannelId.setTextLimit(40);
 		txtChannelId.setBounds(131, 26, 290, 27);
 
 		Label lblChannelName = new Label(grpCreateNewAccount, SWT.NONE);
@@ -93,7 +93,7 @@ public class CreateHomeChannelDialog extends Dialog {
 		lblChannelName.setBounds(10, 64, 109, 17);
 
 		txtChannelName = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtChannelName.setTextLimit(150);
+		txtChannelName.setTextLimit(40);
 		txtChannelName.setBounds(131, 59, 290, 27);
 
 		Label lblGoogleAccount = new Label(grpCreateNewAccount, SWT.NONE);
