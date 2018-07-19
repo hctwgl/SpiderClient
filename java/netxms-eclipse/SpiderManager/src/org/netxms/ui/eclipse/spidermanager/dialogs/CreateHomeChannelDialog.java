@@ -47,11 +47,9 @@ import org.spider.client.GoogleAccountObject;
 public class CreateHomeChannelDialog extends Dialog {
 
 	private Text txtChannelId;
-	private Text txtChannelName;
 	private Combo cbGoogleAccount;
 	
 	private String cId;
-	private String cName; 
 	private String googleUser;
 	private NXCSession session;
 	Object[] objGoogleAccount;
@@ -87,19 +85,10 @@ public class CreateHomeChannelDialog extends Dialog {
 		txtChannelId.setTextLimit(40);
 		txtChannelId.setBounds(131, 26, 290, 27);
 
-		Label lblChannelName = new Label(grpCreateNewAccount, SWT.NONE);
-		lblChannelName.setAlignment(SWT.RIGHT);
-		lblChannelName.setText("Channel name");
-		lblChannelName.setBounds(10, 64, 109, 17);
-
-		txtChannelName = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtChannelName.setTextLimit(40);
-		txtChannelName.setBounds(131, 59, 290, 27);
-
 		Label lblGoogleAccount = new Label(grpCreateNewAccount, SWT.NONE);
 		lblGoogleAccount.setAlignment(SWT.RIGHT);
 		lblGoogleAccount.setText("Google Account");
-		lblGoogleAccount.setBounds(10, 97, 109, 17);
+		lblGoogleAccount.setBounds(10, 76, 109, 17);
 		
 		Button btnView = new Button(grpCreateNewAccount, SWT.NONE);
 		btnView.addSelectionListener(new SelectionAdapter() {
@@ -112,7 +101,7 @@ public class CreateHomeChannelDialog extends Dialog {
 		btnView.setBounds(427, 26, 79, 29);
 		
 		cbGoogleAccount = new Combo(grpCreateNewAccount, SWT.NONE);
-		cbGoogleAccount.setBounds(131, 92, 290, 29);
+		cbGoogleAccount.setBounds(131, 71, 290, 29);
 		
 		initData();
 		return dialogArea;
@@ -160,17 +149,6 @@ public class CreateHomeChannelDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		cId = txtChannelId.getText();
-		cName = txtChannelName.getText();
-		
-		if(cId == null || cId.isEmpty())
-		{
-			MessageBox dialog =
-					new MessageBox(getShell(), SWT.ERROR | SWT.OK);
-			dialog.setText("Error");
-			dialog.setMessage("Channel ID must not empty!");
-			dialog.open();
-			return;
-		}
 		googleUser = cbGoogleAccount.getText();
 		if(googleUser == null || googleUser.isEmpty())
 		{
@@ -187,10 +165,6 @@ public class CreateHomeChannelDialog extends Dialog {
 	
 	public String getcId() {
 		return cId;
-	}
-
-	public String getcName() {
-		return cName;
 	}
 	
 	public String getGoogleUser() {

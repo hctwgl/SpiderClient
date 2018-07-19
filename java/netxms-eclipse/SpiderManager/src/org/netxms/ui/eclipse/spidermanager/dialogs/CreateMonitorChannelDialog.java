@@ -39,10 +39,8 @@ import org.eclipse.swt.events.SelectionEvent;
  */
 public class CreateMonitorChannelDialog extends Dialog {
 	private Text txtChannelId;
-	private Text txtChannelName;
 	
 	private String channelId;
-	private String channelName;
 
 	public CreateMonitorChannelDialog(Shell parentShell) 
 	{
@@ -75,15 +73,6 @@ public class CreateMonitorChannelDialog extends Dialog {
 		txtChannelId.setTextLimit(40);
 		txtChannelId.setBounds(131, 26, 290, 27);
 		
-		Label lblChannelName = new Label(grpCreateNewAccount, SWT.NONE);
-		lblChannelName.setAlignment(SWT.RIGHT);
-		lblChannelName.setText("Channel name");
-		lblChannelName.setBounds(10, 64, 109, 17);
-		
-		txtChannelName = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtChannelName.setTextLimit(40);
-		txtChannelName.setBounds(131, 59, 290, 27);
-		
 		Button button = new Button(grpCreateNewAccount, SWT.NONE);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -106,7 +95,6 @@ public class CreateMonitorChannelDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		channelId = txtChannelId.getText();
-		channelName = txtChannelName.getText();
 		// validate data
 		if(channelId == null || channelId.isEmpty())
 		{
@@ -122,9 +110,5 @@ public class CreateMonitorChannelDialog extends Dialog {
 
 	public String getChannelId() {
 		return channelId;
-	}
-
-	public String getChannelName() {
-		return channelName;
 	}
 }

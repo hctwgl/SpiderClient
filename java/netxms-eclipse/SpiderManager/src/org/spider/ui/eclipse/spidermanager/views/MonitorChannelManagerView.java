@@ -52,6 +52,12 @@ public class MonitorChannelManagerView extends LogViewer {
 
 	public static final int COLUMN_CHANNEL_ID 		= 0;
 	public static final int COLUMN_CHANNEL_NAME 	= 1;
+	public static final int COLUMN_VIDEO_NUMBER 	= 2;
+	public static final int COLUMN_VIEW_NUMBER 		= 3;
+	public static final int COLUMN_SUBCRIBER	 	= 4;
+	public static final int COLUMN_DATE_CREATED	 	= 5;
+	public static final int COLUMN_STATUS		 	= 6;
+	public static final int COLUMN_NOTE			 	= 7;
 
 	public MonitorChannelManagerView() {
 	}
@@ -187,7 +193,7 @@ public class MonitorChannelManagerView extends LogViewer {
 				@Override
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
-					session.createMonitorChannel(dlg.getChannelId(), dlg.getChannelName());
+					session.createMonitorChannel(dlg.getChannelId());
 				}
 
 				@Override
@@ -212,12 +218,19 @@ public class MonitorChannelManagerView extends LogViewer {
 		}
 		MonitorChannelObject selectedObj = new MonitorChannelObject(
 				selection[0].getText(COLUMN_CHANNEL_ID), 
-				selection[0].getText(COLUMN_CHANNEL_NAME));
+				selection[0].getText(COLUMN_CHANNEL_NAME),
+				Integer.parseInt(selection[0].getText(COLUMN_VIDEO_NUMBER)),
+				Integer.parseInt(selection[0].getText(COLUMN_VIEW_NUMBER)),
+				Integer.parseInt(selection[0].getText(COLUMN_SUBCRIBER)),
+				Long.parseLong(selection[0].getText(COLUMN_DATE_CREATED)),
+				Integer.parseInt(selection[0].getText(COLUMN_STATUS)),
+				selection[0].getText(COLUMN_NOTE)
+				);
 
 		final EditMonitorChannelDialog dlg = new EditMonitorChannelDialog(getViewSite().getShell(), selectedObj);
 		if (dlg.open() == Window.OK) {
 			try {
-				session.modifyMonitorChannel(dlg.getChannelId(), dlg.getChannelName());
+				session.modifyMonitorChannel(dlg.getChannelId());
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (NXCException e) {

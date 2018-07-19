@@ -43,15 +43,30 @@ public class WriteUploadConfigFile {
 		config.appendChild(tags);
 
 		Element enableTitle = doc.createElement("enableTitle");
-		enableTitle.appendChild(doc.createTextNode("" + uploadCfg.enableTitle));
+		if(uploadCfg.enableTitle)
+		{
+			enableTitle.appendChild(doc.createTextNode("" + 1));	
+		}else{
+			enableTitle.appendChild(doc.createTextNode("" + 0));
+		}
 		config.appendChild(enableTitle);
 		
 		Element enableDesc = doc.createElement("enableDesc");
-		enableDesc.appendChild(doc.createTextNode("" + uploadCfg.enableDesc));
+		if(uploadCfg.enableDesc)
+		{
+			enableDesc.appendChild(doc.createTextNode("" + 1));	
+		}else{
+			enableDesc.appendChild(doc.createTextNode("" + 0));
+		}
 		config.appendChild(enableDesc);
 		
 		Element enableTags = doc.createElement("enableTags");
-		enableTags.appendChild(doc.createTextNode("" + uploadCfg.enableTag));
+		if(uploadCfg.enableTag)
+		{
+			enableTags.appendChild(doc.createTextNode("" + 1));	
+		}else{
+			enableTags.appendChild(doc.createTextNode("" + 0));
+		}
 		config.appendChild(enableTags);
 
 		// write the content into xml file

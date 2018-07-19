@@ -128,7 +128,6 @@ public class CreateClusterDialog extends Dialog {
 		
 		Label lblPassword = new Label(grpCreateNewAccount, SWT.NONE);
 		lblPassword.setText("Password");
-		txtPassword.setTextLimit(40);
 		lblPassword.setAlignment(SWT.RIGHT);
 		lblPassword.setBounds(10, 255, 109, 17);
 		

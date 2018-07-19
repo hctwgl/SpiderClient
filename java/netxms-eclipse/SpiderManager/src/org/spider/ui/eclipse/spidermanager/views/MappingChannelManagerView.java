@@ -318,7 +318,12 @@ public class MappingChannelManagerView extends LogViewer {
 			channelId = selection[0].getText(COLUMN_HOME_CHANNEL_ID);
 			Program.launch("https://www.youtube.com/channel/" + channelId);
 		}else{
-			//channelId = selection[0].getText(COLUMN_MONITOR_CHANNEL_ID);
+			int mappingType = Integer.parseInt(selection[0].getText(COLUMN_MAPPING_TYPE));
+			if(mappingType == 0)
+			{
+				channelId = selection[0].getText(COLUMN_MONITOR_CONTENT);
+				Program.launch("https://www.youtube.com/channel/" + channelId);
+			}
 		}
 	}
 }

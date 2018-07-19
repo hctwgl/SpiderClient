@@ -390,10 +390,12 @@ public class EditMappingChannelDialog extends Dialog {
 				String[] filterExt = { "*.xml", "*.*" };
 				dlg.setFilterExtensions(filterExt);
 				if (dlg.open() != null) {
+					String filePath = dlg.getFilterPath();
 					String names = dlg.getFileName();
+
 					System.out.println(names);
 					ReadRenderConfigFile readXML = new ReadRenderConfigFile();
-					RenderConfig renderCfg = readXML.read(names);
+					RenderConfig renderCfg = readXML.read(filePath + "/" + names);
 					txtVideoIntro.setText(renderCfg.vIntro);
 					txtVideoOutro.setText(renderCfg.vOutro);
 					txtLogo.setText(renderCfg.vLogo);

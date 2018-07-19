@@ -47,11 +47,9 @@ import org.eclipse.swt.widgets.Combo;
  */
 public class EditHomeChannelDialog extends Dialog {
 	private Text txtChannelId;
-	private Text txtChannelName;
 	Combo cbGoogleAccount;
 
 	private String cId;
-	private String cName; 
 	private String googleUser;
 	HomeChannelObject object;
 	Object[] objGoogleAccount;
@@ -91,19 +89,10 @@ public class EditHomeChannelDialog extends Dialog {
 		txtChannelId.setTextLimit(150);
 		txtChannelId.setBounds(131, 26, 290, 27);
 
-		Label lblChannelName = new Label(grpCreateNewAccount, SWT.NONE);
-		lblChannelName.setAlignment(SWT.RIGHT);
-		lblChannelName.setText("Channel name");
-		lblChannelName.setBounds(10, 64, 109, 17);
-
-		txtChannelName = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtChannelName.setTextLimit(150);
-		txtChannelName.setBounds(131, 59, 290, 27);
-
 		Label lblGoogleAccount = new Label(grpCreateNewAccount, SWT.NONE);
 		lblGoogleAccount.setAlignment(SWT.RIGHT);
 		lblGoogleAccount.setText("Google Account");
-		lblGoogleAccount.setBounds(10, 97, 109, 17);
+		lblGoogleAccount.setBounds(10, 76, 109, 17);
 		Button btnView = new Button(grpCreateNewAccount, SWT.NONE);
 		btnView.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -114,7 +103,7 @@ public class EditHomeChannelDialog extends Dialog {
 		btnView.setText("View");
 		btnView.setBounds(427, 26, 79, 29);
 		cbGoogleAccount = new Combo(grpCreateNewAccount, SWT.NONE);
-		cbGoogleAccount.setBounds(131, 92, 290, 29);
+		cbGoogleAccount.setBounds(131, 71, 290, 29);
 		
 		initData();
 		return dialogArea;
@@ -124,7 +113,6 @@ public class EditHomeChannelDialog extends Dialog {
 	{
 		//initial data
 		txtChannelId.setText(this.object.getChannelId());
-		txtChannelName.setText(this.object.getChannelName());
 		cbGoogleAccount.setText(object.getGoogleUser());
 		
 		try {
@@ -163,16 +151,6 @@ public class EditHomeChannelDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		cId = txtChannelId.getText();
-		cName = txtChannelName.getText();
-		if(cId == null || cId.isEmpty())
-		{
-			MessageBox dialog =
-					new MessageBox(getShell(), SWT.ERROR | SWT.OK);
-			dialog.setText("Error");
-			dialog.setMessage("Channel ID must not empty!");
-			dialog.open();
-			return;
-		}
 		googleUser = cbGoogleAccount.getText();
 		if(googleUser == null || googleUser.isEmpty())
 		{
@@ -188,10 +166,6 @@ public class EditHomeChannelDialog extends Dialog {
 
 	public String getcId() {
 		return cId;
-	}
-
-	public String getcName() {
-		return cName;
 	}
 
 	public String getGoogleUser() {

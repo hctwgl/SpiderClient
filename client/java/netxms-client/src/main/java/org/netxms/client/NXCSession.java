@@ -3799,7 +3799,14 @@ public class NXCSession {
 			String  cId = msg.getFieldAsString(baseIndex);
 			String  cName = msg.getFieldAsString(baseIndex + 1);
 			String  googleUser = msg.getFieldAsString(baseIndex + 2);
-			homeChannelList.put(i , new HomeChannelObject(cId, cName, googleUser));
+			int videoNUmber = 0;
+			int viewNumber = 0;
+			int subscriber = 0;
+			long dateCreated = 0;
+			int status = 0;
+			String note = "";
+			homeChannelList.put(i , new HomeChannelObject(cId, cName, googleUser, 
+					videoNUmber, viewNumber, subscriber, dateCreated, status, note));
 		}
 		return homeChannelList.values().toArray();
 	}
@@ -3824,7 +3831,14 @@ public class NXCSession {
 		{
 			String  cId = msg.getFieldAsString(baseIndex);
 			String  cName = msg.getFieldAsString(baseIndex + 1);
-			monitorChannleList.put(i , new MonitorChannelObject(cId, cName));
+			int videoNUmber = 0;
+			int viewNumber = 0;
+			int subscriber = 0;
+			long dateCreated = 0;
+			int status = 0;
+			String note = "";
+			monitorChannleList.put(i , new MonitorChannelObject(cId, cName, videoNUmber, 
+					viewNumber, subscriber, dateCreated, status, note));
 		}
 
 		return monitorChannleList.values().toArray();
@@ -3950,12 +3964,11 @@ public class NXCSession {
 					SessionNotification.GOOGLE_ACCOUNT_CHANGED, code));
 					}
 
-	public void createHomeCHannel(String cId, String cName, String googleUser) 
+	public void createHomeCHannel(String cId, String googleUser) 
 			throws IOException, NXCException
 			{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_CREATE_HOME_CHANNEL);
 		msg.setField(SpiderCodes.VID_HOME_CHANNEL_ID, cId);
-		msg.setField(SpiderCodes.VID_HOME_CHANNEL_NAME, cName);
 		msg.setField(SpiderCodes.VID_HOME_CHANNEL_ACCOUNT_ID, googleUser);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());
@@ -3965,12 +3978,11 @@ public class NXCSession {
 					SessionNotification.HOME_CHANNEL_CHANGED, code));
 			}
 
-	public void modifyHomeCHannel(String cId, String cName, String googleUser) 
+	public void modifyHomeCHannel(String cId, String googleUser) 
 			throws IOException, NXCException
 			{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_MOD_HOME_CHANNEL);
 		msg.setField(SpiderCodes.VID_HOME_CHANNEL_ID, cId);
-		msg.setField(SpiderCodes.VID_HOME_CHANNEL_NAME, cName);
 		msg.setField(SpiderCodes.VID_HOME_CHANNEL_ACCOUNT_ID, googleUser);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());
@@ -4029,11 +4041,10 @@ public class NXCSession {
 
 					}
 
-	public void createMonitorChannel(String cId, String cName) throws IOException, NXCException
+	public void createMonitorChannel(String cId) throws IOException, NXCException
 	{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_CREATE_MONITOR_CHANNEL);
 		msg.setField(SpiderCodes.VID_MONITOR_CHANNEL_ID, cId);
-		msg.setField(SpiderCodes.VID_MONITOR_CHANNEL_NAME, cName);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());
 		final int code = msg.getFieldAsInt32(NXCPCodes.VID_RCC);
@@ -4042,11 +4053,10 @@ public class NXCSession {
 					SessionNotification.MONITOR_CHANNEL_CHANGED, code));
 	}
 
-	public void modifyMonitorChannel(String cId, String cName) throws IOException, NXCException
+	public void modifyMonitorChannel(String cId) throws IOException, NXCException
 	{
 		NXCPMessage msg = newMessage(SpiderCodes.CMD_MOD_MONITOR_CHANNEL);
 		msg.setField(SpiderCodes.VID_MONITOR_CHANNEL_ID, cId);
-		msg.setField(SpiderCodes.VID_MONITOR_CHANNEL_NAME, cName);
 		sendMessage(msg);
 		msg = waitForRCC(msg.getMessageId());
 		final int code = msg.getFieldAsInt32(NXCPCodes.VID_RCC);

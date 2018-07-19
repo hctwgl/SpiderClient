@@ -48,11 +48,18 @@ public class HomeChannelManagerView extends LogViewer {
 	private Action actEditHomeChannel;
 	private Action actDeleteHomeChannel;
 	private Action actViewHomeChanne;
+	private Action actReloadChannel;
 	private SessionListener sessionListener;
 
 	public static final int COLUMN_CHANNEL_ID 		= 0;
 	public static final int COLUMN_CHANNEL_NAME 	= 1;
 	public static final int COLUMN_GOOGLE_ACCOUNT 	= 2;
+	public static final int COLUMN_VIDEO_NUMBER 	= 3;
+	public static final int COLUMN_VIEW_NUMBER 		= 4;
+	public static final int COLUMN_SUBCRIBER	 	= 5;
+	public static final int COLUMN_DATE_CREATED	 	= 6;
+	public static final int COLUMN_STATUS		 	= 7;
+	public static final int COLUMN_NOTE			 	= 8;
 
 	public HomeChannelManagerView() {
 	}
@@ -123,6 +130,7 @@ public class HomeChannelManagerView extends LogViewer {
 		manager.add(actEditHomeChannel);
 		manager.add(actDeleteHomeChannel);
 		manager.add(new Separator());
+		manager.add(actReloadChannel);
 		manager.add(actViewHomeChanne);
 		// Other plug-ins can contribute there actions here
 		manager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
@@ -131,6 +139,7 @@ public class HomeChannelManagerView extends LogViewer {
 	@Override
 	protected void fillLocalToolBar(IToolBarManager manager) {
 		super.fillLocalToolBar(manager);
+		manager.add(actReloadChannel);
 		manager.add(actAddHomeChannel);
 		manager.add(actEditHomeChannel);
 		manager.add(actDeleteHomeChannel);
@@ -173,10 +182,18 @@ public class HomeChannelManagerView extends LogViewer {
 		actViewHomeChanne = new Action("View home channel", 
 				Activator.getImageDescriptor("icons/eye_16x16.png")) {
 			public void run() {
-				viewHomeChannel();
+				browseHomeChannel();
 			}
 		};
 		actViewHomeChanne.setToolTipText("View home channel");
+		
+		actReloadChannel = new Action("Reload channel info", 
+				Activator.getImageDescriptor("icons/eye_16x16.png")) {
+			public void run() {
+				
+			}
+		};
+		actReloadChannel.setToolTipText("Reload channel info");
 	}
 
 
@@ -189,7 +206,7 @@ public class HomeChannelManagerView extends LogViewer {
 				@Override
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
-					session.createHomeCHannel(dlg.getcId(), dlg.getcName(), dlg.getGoogleUser());
+					session.createHomeCHannel(dlg.getcId(), dlg.getGoogleUser());
 				}
 
 				@Override
@@ -215,7 +232,14 @@ public class HomeChannelManagerView extends LogViewer {
 		HomeChannelObject selectedObj = new HomeChannelObject(
 				selection[0].getText(COLUMN_CHANNEL_ID),
 				selection[0].getText(COLUMN_CHANNEL_NAME),
-				selection[0].getText(COLUMN_GOOGLE_ACCOUNT));
+				selection[0].getText(COLUMN_GOOGLE_ACCOUNT),
+				Integer.parseInt(selection[0].getText(COLUMN_VIDEO_NUMBER)),
+				Integer.parseInt(selection[0].getText(COLUMN_VIEW_NUMBER)),
+				Integer.parseInt(selection[0].getText(COLUMN_SUBCRIBER)),
+				Long.parseLong(selection[0].getText(COLUMN_DATE_CREATED)),
+				Integer.parseInt(selection[0].getText(COLUMN_STATUS)),
+				selection[0].getText(COLUMN_NOTE)
+				);
 
 		final EditHomeChannelDialog dlg = new EditHomeChannelDialog(getViewSite().getShell(), selectedObj);
 		if (dlg.open() == Window.OK) {
@@ -224,7 +248,7 @@ public class HomeChannelManagerView extends LogViewer {
 				@Override
 				protected void runInternal(IProgressMonitor monitor)
 						throws Exception {
-					session.modifyHomeCHannel(dlg.getcId(), dlg.getcName(), dlg.getGoogleUser());
+					session.modifyHomeCHannel(dlg.getcId(), dlg.getGoogleUser());
 				}
 
 				@Override
@@ -274,7 +298,7 @@ public class HomeChannelManagerView extends LogViewer {
 		}
 	}
 
-	private void viewHomeChannel()
+	private void browseHomeChannel()
 	{
 		final TableItem[] selection = viewer.getTable().getSelection();
 		if(selection.length <= 0)

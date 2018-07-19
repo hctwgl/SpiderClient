@@ -46,7 +46,9 @@ import org.spider.client.MonitorChannelObject;
 import org.spider.client.SpiderDefine;
 import org.spider.client.SpiderDefine.*;
 import org.spider.ui.eclipse.spidermanager.helper.ReadRenderConfigFile;
+import org.spider.ui.eclipse.spidermanager.helper.ReadUploadConfigFile;
 import org.spider.ui.eclipse.spidermanager.helper.WriteRenderConfigFile;
+import org.spider.ui.eclipse.spidermanager.helper.WriteUploadConfigFile;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Link;
@@ -116,6 +118,8 @@ public class CreateMappingChannelDialog extends Dialog {
 	private Text txtMonitorContent;
 	private Label lblMappingType;
 	private Combo cbMappingType;
+	private Button btnImportUpload;
+	private Button btnExportUpload;
 
 	public CreateMappingChannelDialog(Shell parentShell) {
 		super(parentShell);
@@ -293,7 +297,7 @@ public class CreateMappingChannelDialog extends Dialog {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					
+
 					txtMonitorContent.setText(fileData);
 				}
 			}
@@ -454,6 +458,53 @@ public class CreateMappingChannelDialog extends Dialog {
 		txtTags = new Text(grpAbc, SWT.BORDER | SWT.WRAP);
 		txtTags.setTextLimit(495);
 		txtTags.setBounds(138, 271, 301, 102);
+
+		btnImportUpload = new Button(grpAbc, SWT.NONE);
+		btnImportUpload.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog dlg = new FileDialog(getShell(), SWT.SINGLE);
+				dlg.setText("Open upload config template file");
+				String[] filterExt = { "*.xml", "*.*" };
+				dlg.setFilterExtensions(filterExt);
+				if (dlg.open() != null) {
+					String filePath = dlg.getFilterPath();
+					String names = dlg.getFileName();
+
+					System.out.println(names);
+					ReadUploadConfigFile readXML = new ReadUploadConfigFile();
+					UploadConfig uploadCfg = readXML.read(filePath + "/" + names);
+					txtTitle.setText(uploadCfg.titleTemp);
+					txtDesc.setText(uploadCfg.descTemp);
+					txtTags.setText(uploadCfg.tagTemp);
+					cbTitle.setSelection(uploadCfg.enableTitle);
+					cbDesc.setSelection(uploadCfg.enableDesc);
+					cbTag.setSelection(uploadCfg.enableTag);
+				}
+			}
+		});
+		btnImportUpload.setText("Import");
+		btnImportUpload.setBounds(23, 379, 95, 29);
+
+		btnExportUpload = new Button(grpAbc, SWT.NONE);
+		btnExportUpload.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
+				dialog.setFilterNames(new String[] { "XML file (.xml)", "All Files (*.*)" });
+				dialog.setFilterExtensions(new String[] { "*.xml", "*.*" }); 
+				dialog.setFileName("config.xml");
+				String filePath = dialog.open();
+				WriteUploadConfigFile writeXML = new WriteUploadConfigFile();
+				UploadConfig uploadCfg = new SpiderDefine().new UploadConfig(
+						txtTitle.getText(), txtDesc.getText(),
+						txtTags.getText(), cbTitle.getSelection(), 
+						cbDesc.getSelection(), cbTag.getSelection());
+				writeXML.write(filePath, uploadCfg);
+			}
+		});
+		btnExportUpload.setText("Export");
+		btnExportUpload.setBounds(125, 379, 95, 29);
 
 		initialData();
 		return dialogArea;

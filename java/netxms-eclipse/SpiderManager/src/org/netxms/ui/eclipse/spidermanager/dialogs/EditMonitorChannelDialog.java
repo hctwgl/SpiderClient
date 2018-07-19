@@ -40,10 +40,8 @@ import org.eclipse.swt.events.SelectionEvent;
  */
 public class EditMonitorChannelDialog extends Dialog {
 	private Text txtChannelId;
-	private Text txtChannelName;
 	
 	private String channelId;
-	private String channelName;
 	MonitorChannelObject object;
 
 	public EditMonitorChannelDialog(Shell parentShell, MonitorChannelObject object) 
@@ -85,18 +83,8 @@ public class EditMonitorChannelDialog extends Dialog {
 		txtChannelId.setTextLimit(150);
 		txtChannelId.setBounds(131, 26, 290, 27);
 		
-		Label lblChannelName = new Label(grpCreateNewAccount, SWT.NONE);
-		lblChannelName.setAlignment(SWT.RIGHT);
-		lblChannelName.setText("Channel name");
-		lblChannelName.setBounds(10, 64, 109, 17);
-		
-		txtChannelName = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtChannelName.setTextLimit(150);
-		txtChannelName.setBounds(131, 59, 290, 27);
-		
 		//initial data
 		txtChannelId.setText(object.getChannelId());
-		txtChannelName.setText(object.getChannelName());
 		
 		Button btnView = new Button(grpCreateNewAccount, SWT.NONE);
 		btnView.addSelectionListener(new SelectionAdapter() {
@@ -131,7 +119,6 @@ public class EditMonitorChannelDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		channelId = txtChannelId.getText();
-		channelName = txtChannelName.getText();
 		if(channelId == null || channelId.isEmpty())
 		{
 			MessageBox dialog =
@@ -146,9 +133,5 @@ public class EditMonitorChannelDialog extends Dialog {
 
 	public String getChannelId() {
 		return channelId;
-	}
-
-	public String getChannelName() {
-		return channelName;
 	}
 }
