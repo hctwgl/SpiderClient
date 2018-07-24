@@ -30,6 +30,7 @@ public class SpiderCodes {
 	public static final int CMD_MOD_CLUSTER       		   = 0x2012;
 	public static final int CMD_DEL_CLUSTER       		   = 0x2013;
 	public static final int CMD_CREATE_CLUSTER    		   = 0x2014;
+	public static final int CMD_RELOAD_CHANNEL_INFO    	   = 0x2015;
 	public static final int CMD_SPIDER_END		           = 0x2FFF;
 
 	public static final long VID_SPIDER_START				= 1000;
@@ -52,6 +53,7 @@ public class SpiderCodes {
 	public static final long VID_HOME_CHANNEL_NAME			= 1019;
 	public static final long VID_HOME_CHANNEL_GACCOUNT		= 1020;
 	public static final long VID_HOME_CHANNEL_ACCOUNT_ID	= 1021;
+	public static final long VID_CHANNEL_TABLE_NAME			= 1022;
 	public static final long VID_HOME_CHANNEL_END			= 1030;
 	//end home channel variable
 

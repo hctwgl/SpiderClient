@@ -190,7 +190,12 @@ public class HomeChannelManagerView extends LogViewer {
 		actReloadChannel = new Action("Reload channel info", 
 				Activator.getImageDescriptor("icons/eye_16x16.png")) {
 			public void run() {
-				
+				try {
+					session.reloadChannelInfo("home_channel");
+				} catch (IOException | NXCException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		};
 		actReloadChannel.setToolTipText("Reload channel info");

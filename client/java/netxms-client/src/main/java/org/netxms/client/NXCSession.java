@@ -4229,6 +4229,18 @@ public class NXCSession {
 			sendNotification(new SessionNotification(
 					SessionNotification.HOME_CHANNEL_CHANGED, code));
 	}
+	
+	public void reloadChannelInfo(String channelTable) throws IOException, NXCException
+	{
+		NXCPMessage msg = newMessage(SpiderCodes.CMD_RELOAD_CHANNEL_INFO);
+		msg.setField(SpiderCodes.VID_CHANNEL_TABLE_NAME, channelTable);
+		sendMessage(msg);
+		msg = waitForRCC(msg.getMessageId());
+		final int code = msg.getFieldAsInt32(NXCPCodes.VID_RCC);
+		if (code == 0) //RCC_SUCCESS
+			sendNotification(new SessionNotification(
+					SessionNotification.HOME_CHANNEL_CHANGED, code));
+	}
 
 	public void deleteCluster(String clusterId, int clusterType) throws IOException, NXCException
 	{
