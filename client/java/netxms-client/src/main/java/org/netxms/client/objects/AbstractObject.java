@@ -64,8 +64,6 @@ public abstract class AbstractObject {
 	public static final int REPORTROOT = 8;
 	/** Business Services */
 	public static final int BUSINESSSERVICEROOT = 9;
-	/** Channel Manager */
-	public static final int CHANNELMANAGERROOT = 10;
 
 	// Object classes
 	public static final int OBJECT_GENERIC = 0;
@@ -102,9 +100,6 @@ public abstract class AbstractObject {
 	public static final int OBJECT_AGENTPOLICY_LOGPARSER = 34;
 	public static final int OBJECT_CHASSIS = 35;
 	public static final int OBJECT_DASHBOARDGROUP = 36;
-	public static final int OBJECT_CHANNELMANAGETROOT = 37;
-	public static final int OBJECT_CHANNELMANAGER = 38;
-	public static final int OBJECT_CHANNELMANAGERGROUP = 40;
 	public static final int OBJECT_CUSTOM = 10000;
 
 	// Status calculation methods

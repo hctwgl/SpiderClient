@@ -34,27 +34,15 @@ public class SpiderDefine {
 
 	public class RenderConfig
 	{
-		public String vIntro;
-		public String vOutro;
-		public String vLogo;
-		public boolean enableIntro = false;
-		public boolean enableOutro = false;
-		public boolean enableLogo = false;
-		
+		public String renderCmd;		
 		public RenderConfig() {
 			super();
 			// TODO Auto-generated constructor stub
 		}
 
-		public RenderConfig(String vIntro, String vOutro, String vLogo,
-				boolean enableIntro, boolean enableOutro, boolean enableLogo) {
+		public RenderConfig(String renderCmd) {
 			super();
-			this.vIntro = vIntro;
-			this.vOutro = vOutro;
-			this.vLogo = vLogo;
-			this.enableIntro = enableIntro;
-			this.enableOutro = enableOutro;
-			this.enableLogo = enableLogo;
+			this.renderCmd = renderCmd;
 		}
 	}
 

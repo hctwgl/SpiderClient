@@ -122,9 +122,6 @@ import org.netxms.client.objects.AgentPolicyConfig;
 import org.netxms.client.objects.AgentPolicyLogParser;
 import org.netxms.client.objects.BusinessService;
 import org.netxms.client.objects.BusinessServiceRoot;
-import org.netxms.client.objects.ChannelManager;
-import org.netxms.client.objects.ChannelManagerGroup;
-import org.netxms.client.objects.ChannelManagerRoot;
 import org.netxms.client.objects.Chassis;
 import org.netxms.client.objects.Cluster;
 import org.netxms.client.objects.ClusterResource;
@@ -1199,15 +1196,6 @@ public class NXCSession {
 			break;
 		case AbstractObject.OBJECT_ZONE:
 			object = new Zone(msg, this);
-			break;
-		case AbstractObject.OBJECT_CHANNELMANAGERGROUP:
-			object = new ChannelManagerGroup(msg, this);
-			break;
-		case AbstractObject.OBJECT_CHANNELMANAGETROOT:
-			object = new ChannelManagerRoot(msg, this);
-			break;
-		case AbstractObject.OBJECT_CHANNELMANAGER:
-			object = new ChannelManager(msg, this);
 			break;
 		default:
 			object = new GenericObject(msg, this);
@@ -3854,24 +3842,17 @@ public class NXCSession {
 
 		msg = waitForRCC(rqId);
 		long baseIndex = NXCPCodes.VID_VARLIST_BASE;
-		String  vIntro = msg.getFieldAsString(baseIndex);
-		String  vOutro = msg.getFieldAsString(baseIndex + 1);
-		String  vLogo = msg.getFieldAsString(baseIndex + 2);
-		String  titleTemp = msg.getFieldAsString(baseIndex + 3);
-		String  descTemp = msg.getFieldAsString(baseIndex + 4);
-		String  tagTemp = msg.getFieldAsString(baseIndex + 5);	
-		int  enableIntro = msg.getFieldAsInt32(baseIndex + 6);
-		int  enableOutro = msg.getFieldAsInt32(baseIndex + 7);
-		int  enableLogo = msg.getFieldAsInt32(baseIndex + 8);
-		int  enableTitle = msg.getFieldAsInt32(baseIndex + 9);
-		int  enableDesc = msg.getFieldAsInt32(baseIndex + 10);
-		int  enableTags = msg.getFieldAsInt32(baseIndex + 11);
-
+		String  renderCmd = msg.getFieldAsString(baseIndex);
+		String  titleTemp = msg.getFieldAsString(baseIndex + 1);
+		String  descTemp = msg.getFieldAsString(baseIndex + 2);
+		String  tagTemp = msg.getFieldAsString(baseIndex + 3);	
+		int  enableTitle = msg.getFieldAsInt32(baseIndex + 4);
+		int  enableDesc = msg.getFieldAsInt32(baseIndex + 5);
+		int  enableTags = msg.getFieldAsInt32(baseIndex + 6);
 
 		SpiderDefine spiderDefine = new SpiderDefine();
 		MappingConfig mappingConfig = null;
-		RenderConfig renderConfig = spiderDefine.new RenderConfig(vIntro, vOutro, 
-				vLogo, enableIntro == 1, enableOutro == 1, enableLogo == 1);
+		RenderConfig renderConfig = spiderDefine.new RenderConfig(renderCmd);
 		UploadConfig uploadConfig = spiderDefine.new UploadConfig(titleTemp, descTemp, 
 				tagTemp, enableTitle == 1, enableDesc == 1, enableTags == 1);
 		MappingChannelObject object = new MappingChannelObject( mappingConfig, 
@@ -4082,12 +4063,7 @@ public class NXCSession {
 		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_RENDER_CLUSTER_ID, mappingConfig.renderClusterId);
 		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_UPLOAD_CLUSTER_ID, mappingConfig.uploadClusterId);
 		//render config
-		msg.setField(SpiderCodes.VID_VIDEO_INTRO, renderConfig.vIntro);
-		msg.setField(SpiderCodes.VID_VIDEO_OUTRO, renderConfig.vOutro);
-		msg.setField(SpiderCodes.VID_VIDEO_LOGO, renderConfig.vLogo);
-		msg.setFieldInt32(SpiderCodes.VID_ENABLE_VIDEO_INTRO, renderConfig.enableIntro ? 1: 0);
-		msg.setFieldInt32(SpiderCodes.VID_ENABLE_VIDEO_OUTRO, renderConfig.enableOutro ? 1: 0);
-		msg.setFieldInt32(SpiderCodes.VID_ENABLE_VIDEO_LOGO, renderConfig.enableLogo ? 1: 0);
+		msg.setField(SpiderCodes.VID_RENDER_CMD, renderConfig.renderCmd);
 		//upload config
 		msg.setField(SpiderCodes.VID_VIDEO_TITLE_TEMPLATE, uploadConfig.titleTemp);
 		msg.setField(SpiderCodes.VID_VIDEO_DESC_TEMPLATE, uploadConfig.descTemp);
@@ -4177,12 +4153,7 @@ public class NXCSession {
 		msg.setField(SpiderCodes.VID_MAPPING_CHANNEL_UPLOAD_CLUSTER_ID, mappingConifg.uploadClusterId);
 
 		//render config
-		msg.setField(SpiderCodes.VID_VIDEO_INTRO, renderConfig.vIntro);
-		msg.setField(SpiderCodes.VID_VIDEO_OUTRO, renderConfig.vOutro);
-		msg.setField(SpiderCodes.VID_VIDEO_LOGO, renderConfig.vLogo);
-		msg.setFieldInt32(SpiderCodes.VID_ENABLE_VIDEO_INTRO,renderConfig.enableIntro ? 1 : 0);
-		msg.setFieldInt32(SpiderCodes.VID_ENABLE_VIDEO_OUTRO, renderConfig.enableOutro ? 1 : 0);
-		msg.setFieldInt32(SpiderCodes.VID_ENABLE_VIDEO_LOGO, renderConfig.enableLogo ? 1 : 0);
+		msg.setField(SpiderCodes.VID_RENDER_CMD, renderConfig.renderCmd);
 
 		//Upload config
 		msg.setField(SpiderCodes.VID_VIDEO_TITLE_TEMPLATE, uploadConfig.titleTemp);

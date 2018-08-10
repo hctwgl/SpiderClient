@@ -77,18 +77,13 @@ public class SpiderCodes {
 	public static final long VID_MAPPING_CHANNEL_DOWNLOAD_CLUSTER_ID	= 1054;
 	public static final long VID_MAPPING_CHANNEL_RENDER_CLUSTER_ID		= 1055;
 	public static final long VID_MAPPING_CHANNEL_UPLOAD_CLUSTER_ID		= 1056;
-	public static final long VID_VIDEO_INTRO							= 1057;
-	public static final long VID_VIDEO_OUTRO							= 1058;
-	public static final long VID_VIDEO_LOGO								= 1059;
-	public static final long VID_VIDEO_TITLE_TEMPLATE					= 1060;
-	public static final long VID_VIDEO_DESC_TEMPLATE					= 1061;
-	public static final long VID_VIDEO_TAGS_TEMPLATE					= 1062;
-	public static final long VID_ENABLE_VIDEO_INTRO						= 1063;
-	public static final long VID_ENABLE_VIDEO_OUTRO						= 1064;
-	public static final long VID_ENABLE_VIDEO_LOGO						= 1065;
-	public static final long VID_ENABLE_TITLE_TEMPLATE					= 1066;
-	public static final long VID_ENABLE_DESC_TEMPLATE					= 1067;
-	public static final long VID_ENABLE_TAGS_TEMPLATE					= 1068;
+	public static final long VID_RENDER_CMD								= 1057;
+	public static final long VID_VIDEO_TITLE_TEMPLATE					= 1058;
+	public static final long VID_VIDEO_DESC_TEMPLATE					= 1059;
+	public static final long VID_VIDEO_TAGS_TEMPLATE					= 1060;
+	public static final long VID_ENABLE_TITLE_TEMPLATE					= 1061;
+	public static final long VID_ENABLE_DESC_TEMPLATE					= 1062;
+	public static final long VID_ENABLE_TAGS_TEMPLATE					= 1063;
 	public static final long VID_MAPPING_CHANNEL_END					= 1100;
 	//end mapping channel variable
 

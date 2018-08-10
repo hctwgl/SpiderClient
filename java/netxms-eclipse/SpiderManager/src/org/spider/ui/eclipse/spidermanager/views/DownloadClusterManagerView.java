@@ -113,8 +113,9 @@ public class DownloadClusterManagerView extends ViewPart {
 				"User Name", 
 				"Password"
 		};
-		final int[] widths = {200, 200, 200, 120, 120, 120};
+		final int[] widths = {200, 200, 200, 120, 120, 0};
 		viewer = new SortableTableViewer(parent, names, widths, 0, SWT.UP, SortableTableViewer.DEFAULT_STYLE);
+		
 
 		viewer.setContentProvider(new ArrayContentProvider());
 		viewer.setLabelProvider(new ClusterLabelProvider());

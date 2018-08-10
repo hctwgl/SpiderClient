@@ -32,14 +32,8 @@ public class ReadRenderConfigFile {
 			System.out.println("\nCurrent Element :" + nNode.getNodeName());
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element eElement = (Element) nNode;
-				String vIntro = eElement.getElementsByTagName("vIntro").item(0).getTextContent();
-				String vOutro = eElement.getElementsByTagName("vOutro").item(0).getTextContent();
-				String vLogo = eElement.getElementsByTagName("vLogo").item(0).getTextContent();
-				int enableIntro = Integer.parseInt(eElement.getElementsByTagName("enableIntro").item(0).getTextContent());
-				int enableOutro = Integer.parseInt(eElement.getElementsByTagName("enableOutro").item(0).getTextContent());
-				int enableLogo = Integer.parseInt(eElement.getElementsByTagName("enableLogo").item(0).getTextContent());	
-				renderCfg = new SpiderDefine().new RenderConfig(vIntro, vOutro, vLogo, 
-						enableIntro == 1, enableOutro == 1, enableLogo == 1); 
+				String renderCmd = eElement.getElementsByTagName("RenderCmd").item(0).getTextContent();
+				renderCfg = new SpiderDefine().new RenderConfig(renderCmd); 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

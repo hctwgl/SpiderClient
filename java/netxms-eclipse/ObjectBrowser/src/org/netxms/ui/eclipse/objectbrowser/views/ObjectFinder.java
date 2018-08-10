@@ -164,12 +164,6 @@ public class ObjectFinder extends ViewPart {
 		OBJECT_CLASSES.add(new ObjectClass(AbstractObject.OBJECT_VPNCONNECTOR,
 				"VPN Connector"));
 		OBJECT_CLASSES.add(new ObjectClass(AbstractObject.OBJECT_ZONE, "Zone"));
-		OBJECT_CLASSES.add(new ObjectClass(AbstractObject.OBJECT_CHANNELMANAGETROOT,
-				"Channel Manager Root"));
-		OBJECT_CLASSES.add(new ObjectClass(AbstractObject.OBJECT_CHANNELMANAGER,
-				"Channel Manager"));
-		OBJECT_CLASSES.add(new ObjectClass(AbstractObject.OBJECT_CHANNELMANAGERGROUP,
-				"Channel Manager Group"));
 	}
 
 	private SortableTableViewer results;

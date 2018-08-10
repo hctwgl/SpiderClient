@@ -30,6 +30,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Group;
 import org.netxms.client.NXCSession;
 import org.netxms.ui.eclipse.shared.ConsoleSharedData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 /**
  * User database object creation dialog
@@ -79,7 +82,7 @@ public class CreateClusterDialog extends Dialog {
 
 		Group grpCreateNewAccount = new Group(dialogArea, SWT.NONE);
 		grpCreateNewAccount.setText("Create cluster");
-		grpCreateNewAccount.setBounds(5, 10, 427, 282);
+		grpCreateNewAccount.setBounds(5, 10, 427, 225);
 
 		Label lblChannelId = new Label(grpCreateNewAccount, SWT.NONE);
 		lblChannelId.setAlignment(SWT.RIGHT);
@@ -89,12 +92,12 @@ public class CreateClusterDialog extends Dialog {
 		Label lblChannelName = new Label(grpCreateNewAccount, SWT.NONE);
 		lblChannelName.setAlignment(SWT.RIGHT);
 		lblChannelName.setText("Cluster Name");
-		lblChannelName.setBounds(10, 76, 109, 17);
+		lblChannelName.setBounds(10, 66, 109, 17);
 
 		Label lblGoogleAccount = new Label(grpCreateNewAccount, SWT.NONE);
 		lblGoogleAccount.setAlignment(SWT.RIGHT);
 		lblGoogleAccount.setText("IP Address");
-		lblGoogleAccount.setBounds(10, 119, 109, 17);
+		lblGoogleAccount.setBounds(10, 99, 109, 17);
 		
 		txtClusterId = new Text(grpCreateNewAccount, SWT.BORDER);
 		txtClusterId.setTextLimit(40);
@@ -102,38 +105,54 @@ public class CreateClusterDialog extends Dialog {
 		
 		txtClusterName = new Text(grpCreateNewAccount, SWT.BORDER);
 		txtClusterName.setTextLimit(145);
-		txtClusterName.setBounds(131, 66, 290, 27);
+		txtClusterName.setBounds(131, 56, 290, 27);
 		
 		txtIpAddress = new Text(grpCreateNewAccount, SWT.BORDER);
 		txtIpAddress.setTextLimit(150);
-		txtIpAddress.setBounds(131, 109, 290, 27);
+		txtIpAddress.setBounds(131, 89, 290, 27);
 		
 		txtPort = new Text(grpCreateNewAccount, SWT.BORDER);
 		txtPort.setTextLimit(40);
-		txtPort.setBounds(131, 154, 290, 27);
+		txtPort.setBounds(131, 122, 290, 27);
 		
 		Label lblPort = new Label(grpCreateNewAccount, SWT.NONE);
 		lblPort.setText("Port");
 		lblPort.setAlignment(SWT.RIGHT);
-		lblPort.setBounds(10, 164, 109, 17);
+		lblPort.setBounds(10, 132, 109, 17);
 		
 		Label lblUsername = new Label(grpCreateNewAccount, SWT.NONE);
 		lblUsername.setText("UserName");
 		lblUsername.setAlignment(SWT.RIGHT);
-		lblUsername.setBounds(10, 207, 109, 17);
+		lblUsername.setBounds(10, 165, 109, 17);
 		
-		txtUserName = new Text(grpCreateNewAccount, SWT.BORDER);
+		txtUserName = new Text(grpCreateNewAccount, SWT.BORDER | SWT.PASSWORD);
 		txtUserName.setTextLimit(40);
-		txtUserName.setBounds(131, 197, 290, 27);
+		txtUserName.setBounds(131, 155, 290, 27);
 		
 		Label lblPassword = new Label(grpCreateNewAccount, SWT.NONE);
 		lblPassword.setText("Password");
 		lblPassword.setAlignment(SWT.RIGHT);
-		lblPassword.setBounds(10, 255, 109, 17);
+		lblPassword.setBounds(10, 198, 109, 17);
 		
-		txtPassword = new Text(grpCreateNewAccount, SWT.BORDER);
+		txtPassword = new Text(grpCreateNewAccount, SWT.BORDER | SWT.PASSWORD);
 		txtPassword.setTextLimit(150);
-		txtPassword.setBounds(131, 245, 290, 27);
+		txtPassword.setBounds(131, 188, 290, 27);
+		
+		final Button cbShowPass = new Button(dialogArea, SWT.CHECK);
+		cbShowPass.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				if(cbShowPass.getSelection())
+				{
+					txtUserName.setEchoChar((char)0);
+					txtPassword.setEchoChar((char)0);
+				}else{
+					txtUserName.setEchoChar('*');
+					txtPassword.setEchoChar('*');
+				}
+			}
+		});
+		cbShowPass.setBounds(438, 0, 26, 24);
 
 		initialData();
 		return dialogArea;

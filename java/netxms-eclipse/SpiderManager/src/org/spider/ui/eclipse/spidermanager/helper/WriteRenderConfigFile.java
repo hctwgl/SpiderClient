@@ -30,44 +30,9 @@ public class WriteRenderConfigFile {
 		Element config = doc.createElement("config");
 		doc.appendChild(config);
 
-		Element intro = doc.createElement("vIntro");
-		intro.appendChild(doc.createTextNode(renderCfg.vIntro));
-		config.appendChild(intro);
-
-		Element outro = doc.createElement("vOutro");
-		outro.appendChild(doc.createTextNode(renderCfg.vOutro));
-		config.appendChild(outro);
-
-		Element logo = doc.createElement("vLogo");
-		logo.appendChild(doc.createTextNode(renderCfg.vLogo));
+		Element logo = doc.createElement("RenderCmd");
+		logo.appendChild(doc.createTextNode(renderCfg.renderCmd));
 		config.appendChild(logo);
-
-		Element enableIntro = doc.createElement("enableIntro");
-		if(renderCfg.enableIntro)
-		{
-			enableIntro.appendChild(doc.createTextNode("" + 1));	
-		}else{
-			enableIntro.appendChild(doc.createTextNode("" + 0));
-		}
-		config.appendChild(enableIntro);
-		
-		Element enableOutro = doc.createElement("enableOutro");
-		if(renderCfg.enableOutro)
-		{
-			enableOutro.appendChild(doc.createTextNode("" + 1));	
-		}else{
-			enableOutro.appendChild(doc.createTextNode("" + 0));
-		}
-		config.appendChild(enableOutro);
-		
-		Element enableLogo = doc.createElement("enableLogo");
-		if(renderCfg.enableLogo)
-		{
-			enableLogo.appendChild(doc.createTextNode("" + 1));	
-		}else{
-			enableLogo.appendChild(doc.createTextNode("" + 0));
-		}
-		config.appendChild(enableLogo);
 
 		// write the content into xml file
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();

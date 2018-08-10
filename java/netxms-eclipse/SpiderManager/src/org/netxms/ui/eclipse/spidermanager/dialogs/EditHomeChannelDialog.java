@@ -84,8 +84,8 @@ public class EditHomeChannelDialog extends Dialog {
 		lblChannelId.setText("Channel ID");
 		lblChannelId.setBounds(10, 31, 109, 17);
 
-		txtChannelId = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtChannelId.setEnabled(false);
+		txtChannelId = new Text(grpCreateNewAccount, SWT.BORDER | SWT.READ_ONLY);
+		txtChannelId.setEditable(false);
 		txtChannelId.setTextLimit(150);
 		txtChannelId.setBounds(131, 26, 290, 27);
 

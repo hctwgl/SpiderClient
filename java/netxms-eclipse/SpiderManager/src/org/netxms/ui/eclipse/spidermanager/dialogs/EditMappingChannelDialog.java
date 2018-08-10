@@ -56,6 +56,9 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Button;
 
 import spider.org.eclipse.wb.swt.ResourceManager;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class EditMappingChannelDialog extends Dialog {
 	private Text txtTimeSync;
@@ -88,19 +91,7 @@ public class EditMappingChannelDialog extends Dialog {
 	private Text txtTags;
 	private TabItem tbtmRenderConfig;
 	private Group grpRender;
-	private Text txtVideoIntro;
-	private Button cbIntro;
-	private Label lblVideoOutro;
-	private Text txtVideoOutro;
-	private Button cbOutro;
-	private Label lblVideoLogo;
-	private Text txtLogo;
-	private Button cbLogo;
 	Button cbTitle;
-	private Label lblLogoPosition;
-	private Text txtLogoPosX;
-	private Text txtLogoPosY;
-	private Label label;
 	Label lbMonitorContent;
 
 	private final int MONITOR_CHANNEL		= 0;
@@ -119,6 +110,8 @@ public class EditMappingChannelDialog extends Dialog {
 	private Combo cbMappingType;
 	private Text txtMonitorContent;
 	private Button btnImportMonitor;
+	private StyledText txtRenderCmd;
+	private ScrolledComposite scrolledComposite;
 
 	public EditMappingChannelDialog(Shell parentShell, MappingChannelObject object) {
 		super(parentShell);
@@ -178,8 +171,7 @@ public class EditMappingChannelDialog extends Dialog {
 		lblVideoIntro.setText("Sync Status");
 		lblVideoIntro.setBounds(10, 250, 109, 17);
 
-		cbHome = new Combo(grpCreateNewAccount, SWT.NONE);
-		cbHome.setEnabled(false);
+		cbHome = new Combo(grpCreateNewAccount, SWT.READ_ONLY);
 		cbHome.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -254,7 +246,6 @@ public class EditMappingChannelDialog extends Dialog {
 		lblMappingType.setBounds(10, 91, 109, 17);
 
 		cbMappingType = new Combo(grpCreateNewAccount, SWT.DROP_DOWN | SWT.READ_ONLY);
-		cbMappingType.setEnabled(false);
 		cbMappingType.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -289,8 +280,8 @@ public class EditMappingChannelDialog extends Dialog {
 		cbMappingType.setBounds(132, 79, 289, 29);
 		cbMappingType.select(0);
 
-		txtMonitorContent = new Text(grpCreateNewAccount, SWT.BORDER);
-		txtMonitorContent.setEnabled(false);
+		txtMonitorContent = new Text(grpCreateNewAccount, SWT.BORDER | SWT.READ_ONLY | SWT.H_SCROLL | SWT.V_SCROLL | SWT.CANCEL);
+		txtMonitorContent.setEditable(false);
 		txtMonitorContent.setTextLimit(150);
 		txtMonitorContent.setBounds(131, 130, 290, 27);
 
@@ -309,11 +300,10 @@ public class EditMappingChannelDialog extends Dialog {
 					File file = new File(filePath + "/" + fileName);
 					Scanner sc;
 					try {
-						Scanner scanner = sc = new Scanner(file);
+						sc = new Scanner(file);
 						while (sc.hasNextLine())
 							fileData += sc.nextLine() + ";";
 					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					txtMonitorContent.setText(fileData);
@@ -332,55 +322,6 @@ public class EditMappingChannelDialog extends Dialog {
 		tbtmRenderConfig.setControl(grpRender);
 		grpRender.setLayout(null);
 
-		Label lblNewLabel_1 = new Label(grpRender, SWT.NONE);
-		lblNewLabel_1.setAlignment(SWT.RIGHT);
-		lblNewLabel_1.setBounds(10, 27, 96, 17);
-		lblNewLabel_1.setText("Video Intro");
-
-		txtVideoIntro = new Text(grpRender, SWT.BORDER);
-		txtVideoIntro.setBounds(112, 22, 342, 27);
-
-		cbIntro = new Button(grpRender, SWT.CHECK);
-		cbIntro.setBounds(460, 22, 20, 24);
-
-		lblVideoOutro = new Label(grpRender, SWT.NONE);
-		lblVideoOutro.setText("Video Outro");
-		lblVideoOutro.setAlignment(SWT.RIGHT);
-		lblVideoOutro.setBounds(10, 66, 96, 17);
-
-		txtVideoOutro = new Text(grpRender, SWT.BORDER);
-		txtVideoOutro.setBounds(112, 61, 342, 27);
-
-		cbOutro = new Button(grpRender, SWT.CHECK);
-		cbOutro.setBounds(460, 61, 20, 24);
-
-		lblVideoLogo = new Label(grpRender, SWT.NONE);
-		lblVideoLogo.setText("Video Logo");
-		lblVideoLogo.setAlignment(SWT.RIGHT);
-		lblVideoLogo.setBounds(10, 105, 96, 17);
-
-		txtLogo = new Text(grpRender, SWT.BORDER);
-		txtLogo.setBounds(112, 100, 342, 27);
-
-		cbLogo = new Button(grpRender, SWT.CHECK);
-		cbLogo.setBounds(460, 100, 20, 24);
-
-		lblLogoPosition = new Label(grpRender, SWT.NONE);
-		lblLogoPosition.setText("Logo Position");
-		lblLogoPosition.setAlignment(SWT.RIGHT);
-		lblLogoPosition.setBounds(10, 148, 96, 17);
-
-		txtLogoPosX = new Text(grpRender, SWT.BORDER);
-		txtLogoPosX.setBounds(112, 142, 96, 27);
-
-		txtLogoPosY = new Text(grpRender, SWT.BORDER);
-		txtLogoPosY.setBounds(243, 142, 96, 27);
-
-		label = new Label(grpRender, SWT.NONE);
-		label.setText(":");
-		label.setAlignment(SWT.CENTER);
-		label.setBounds(217, 148, 20, 17);
-
 		Button btnImport = new Button(grpRender, SWT.NONE);
 		btnImport.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -396,16 +337,11 @@ public class EditMappingChannelDialog extends Dialog {
 					System.out.println(names);
 					ReadRenderConfigFile readXML = new ReadRenderConfigFile();
 					RenderConfig renderCfg = readXML.read(filePath + "/" + names);
-					txtVideoIntro.setText(renderCfg.vIntro);
-					txtVideoOutro.setText(renderCfg.vOutro);
-					txtLogo.setText(renderCfg.vLogo);
-					cbIntro.setSelection(renderCfg.enableIntro);
-					cbOutro.setSelection(renderCfg.enableOutro);
-					cbLogo.setSelection(renderCfg.enableLogo);
+					txtRenderCmd.setText(renderCfg.renderCmd);
 				}
 			}
 		});
-		btnImport.setBounds(11, 344, 95, 29);
+		btnImport.setBounds(10, 394, 95, 29);
 		btnImport.setText("Import");
 
 		Button btnExport = new Button(grpRender, SWT.NONE);
@@ -419,15 +355,25 @@ public class EditMappingChannelDialog extends Dialog {
 				dialog.setFileName("config.xml");
 				String filePath = dialog.open();
 				WriteRenderConfigFile writeXML = new WriteRenderConfigFile();
-				RenderConfig renderCfg = new SpiderDefine().new RenderConfig(
-						txtVideoIntro.getText(), txtVideoOutro.getText(),
-						txtLogo.getText(), cbIntro.getSelection(), 
-						cbOutro.getSelection(), cbLogo.getSelection());
+				RenderConfig renderCfg = new SpiderDefine().new RenderConfig(txtRenderCmd.getText());
 				writeXML.write(filePath, renderCfg);
 			}
 		});
-		btnExport.setBounds(125, 344, 95, 29);
+		btnExport.setBounds(124, 394, 95, 29);
 		btnExport.setText("Export");
+		
+		scrolledComposite = new ScrolledComposite(grpRender, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		scrolledComposite.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		scrolledComposite.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+		scrolledComposite.setBounds(10, 24, 497, 364);
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+		
+		txtRenderCmd = new StyledText(scrolledComposite, SWT.BORDER | SWT.WRAP);
+		txtRenderCmd.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		txtRenderCmd.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+		scrolledComposite.setContent(txtRenderCmd);
+		scrolledComposite.setMinSize(txtRenderCmd.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
 		tbtmUploadConfig = new TabItem(tabFolder, SWT.NONE);
 		tbtmUploadConfig.setImage(ResourceManager.getPluginImage("org.spider.ui.eclipse.spidermanager", "icons/upload.png"));
@@ -443,7 +389,7 @@ public class EditMappingChannelDialog extends Dialog {
 		lblNewLabel.setBounds(23, 74, 109, 17);
 		lblNewLabel.setText("Title template");
 
-		txtTitle = new Text(grpAbc, SWT.BORDER | SWT.WRAP);
+		txtTitle = new Text(grpAbc, SWT.BORDER | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL | SWT.CANCEL | SWT.MULTI);
 		txtTitle.setBounds(138, 31, 301, 102);
 
 		cbTitle = new Button(grpAbc, SWT.CHECK);
@@ -465,10 +411,10 @@ public class EditMappingChannelDialog extends Dialog {
 		cbTag = new Button(grpAbc, SWT.CHECK);
 		cbTag.setBounds(445, 312, 26, 24);
 
-		txtDesc = new Text(grpAbc, SWT.BORDER | SWT.WRAP);
+		txtDesc = new Text(grpAbc, SWT.BORDER | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL | SWT.CANCEL | SWT.MULTI);
 		txtDesc.setBounds(138, 148, 301, 102);
 
-		txtTags = new Text(grpAbc, SWT.BORDER | SWT.WRAP);
+		txtTags = new Text(grpAbc, SWT.BORDER | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL | SWT.CANCEL | SWT.MULTI);
 		txtTags.setBounds(138, 271, 301, 102);
 
 		initialData();
@@ -528,14 +474,7 @@ public class EditMappingChannelDialog extends Dialog {
 		mappingConfig.renderClusterId = cbRender.getText();
 		mappingConfig.uploadClusterId = cbUpload.getText();
 		mappingConfig.mappingType = cbMappingType.getSelectionIndex();
-
-		renderConfig.vIntro = txtVideoIntro.getText();
-		renderConfig.vOutro = txtVideoOutro.getText();
-		renderConfig.vLogo = txtLogo.getText();
-		renderConfig.enableIntro = cbIntro.getSelection();
-		renderConfig.enableOutro = cbOutro.getSelection();
-		renderConfig.enableLogo = cbLogo.getSelection();
-
+		renderConfig.renderCmd = txtRenderCmd.getText();
 		uploadConfig.titleTemp = txtTitle.getText();
 		uploadConfig.descTemp = txtDesc.getText();
 		uploadConfig.tagTemp = txtTags.getText();
@@ -557,21 +496,8 @@ public class EditMappingChannelDialog extends Dialog {
 				setHomeChannelData();
 			}
 		} catch (IOException | NXCException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		/*
-		if(cMoniorObject == null)
-		{
-			try {
-				cMoniorObject = session.getMonitorChannelList();
-				setMonitorChannelData();
-			} catch (IOException | NXCException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-		 */
 
 		if(downloadClusters == null)
 		{
@@ -579,7 +505,6 @@ public class EditMappingChannelDialog extends Dialog {
 				downloadClusters = session.getCluster(SpiderCodes.CLUSTER_DOWNLOAD);
 				setDownloadCluster();
 			} catch (IOException | NXCException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -589,7 +514,6 @@ public class EditMappingChannelDialog extends Dialog {
 				renderClusters = session.getCluster(SpiderCodes.CLUSTER_RENDER);
 				setRenderCluster();
 			} catch (IOException | NXCException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -599,7 +523,6 @@ public class EditMappingChannelDialog extends Dialog {
 				uploadClusters = session.getCluster(SpiderCodes.CLUSTER_UPLOAD);
 				setUploadCluster();
 			} catch (IOException | NXCException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -624,13 +547,8 @@ public class EditMappingChannelDialog extends Dialog {
 		cbMappingType.select(object.getMappingConfig().mappingType);
 
 		RenderConfig renderConfig = object.getRenderConfig();
-		txtVideoIntro.setText(renderConfig.vIntro);
-		txtVideoOutro.setText(renderConfig.vOutro);
-		txtLogo.setText(renderConfig.vLogo);
-		cbIntro.setSelection(renderConfig.enableIntro);
-		cbOutro.setSelection(renderConfig.enableOutro);
-		cbLogo.setSelection(renderConfig.enableLogo);
-
+		txtRenderCmd.setText(renderConfig.renderCmd);
+		
 		UploadConfig uploadConfig = object.getUploadConfig();
 		txtTitle.setText(uploadConfig.titleTemp);
 		txtDesc.setText(uploadConfig.descTemp);

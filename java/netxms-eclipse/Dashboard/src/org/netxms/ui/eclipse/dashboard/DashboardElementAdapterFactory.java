@@ -52,102 +52,99 @@ import org.netxms.ui.eclipse.dashboard.widgets.internal.WebPageConfig;
 /**
  * Adapter factory for dashboard elements
  */
-public class DashboardElementAdapterFactory implements IAdapterFactory {
-	private static final Class<?>[] supportedClasses = { DashboardElementConfig.class };
+public class DashboardElementAdapterFactory implements IAdapterFactory
+{
+	private static final Class<?>[] supportedClasses = 
+	{
+		DashboardElementConfig.class
+	};
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapterList()
 	 */
 	@Override
-	public Class<?>[] getAdapterList() {
+	public Class<?>[] getAdapterList()
+	{
 		return supportedClasses;
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.runtime.IAdapterFactory#getAdapter(java.lang.Object,
-	 * java.lang.Class)
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapter(java.lang.Object, java.lang.Class)
 	 */
 	@SuppressWarnings("rawtypes")
 	@Override
-	public Object getAdapter(Object adaptableObject, Class adapterType) {
+	public Object getAdapter(Object adaptableObject, Class adapterType)
+	{
 		if (!(adaptableObject instanceof DashboardElement))
 			return null;
-
-		if (adapterType == DashboardElementConfig.class) {
-			DashboardElement element = (DashboardElement) adaptableObject;
-			try {
-				switch (element.getType()) {
-				case DashboardElement.SYSLOG_MONITOR:
-					return SyslogMonitorConfig.createFromXml(element.getData());
-				case DashboardElement.SNMP_TRAP_MONITOR:
-					return SnmpTrapMonitorConfig.createFromXml(element
-							.getData());
-				case DashboardElement.EVENT_MONITOR:
-					return EventMonitorConfig.createFromXml(element.getData());
-				case DashboardElement.ALARM_VIEWER:
-					return AlarmViewerConfig.createFromXml(element.getData());
-				case DashboardElement.AVAILABLITY_CHART:
-					return AvailabilityChartConfig.createFromXml(element
-							.getData());
-				case DashboardElement.BAR_CHART:
-					return BarChartConfig.createFromXml(element.getData());
-				case DashboardElement.CUSTOM:
-					return CustomWidgetConfig.createFromXml(element.getData());
-				case DashboardElement.DASHBOARD:
-					return EmbeddedDashboardConfig.createFromXml(element
-							.getData());
-				case DashboardElement.DCI_SUMMARY_TABLE:
-					return DciSummaryTableConfig.createFromXml(element
-							.getData());
-				case DashboardElement.DIAL_CHART:
-					return GaugeConfig.createFromXml(element.getData());
-				case DashboardElement.GEO_MAP:
-					return GeoMapConfig.createFromXml(element.getData());
-				case DashboardElement.LABEL:
-					return LabelConfig.createFromXml(element.getData());
-				case DashboardElement.LINE_CHART:
-					return LineChartConfig.createFromXml(element.getData());
-				case DashboardElement.NETWORK_MAP:
-					return NetworkMapConfig.createFromXml(element.getData());
-				case DashboardElement.PIE_CHART:
-					return PieChartConfig.createFromXml(element.getData());
-				case DashboardElement.RACK_DIAGRAM:
-					return RackDiagramConfig.createFromXml(element.getData());
-				case DashboardElement.SEPARATOR:
-					return SeparatorConfig.createFromXml(element.getData());
-				case DashboardElement.SERVICE_COMPONENTS:
-					return ServiceComponentsConfig.createFromXml(element
-							.getData());
-				case DashboardElement.STATUS_CHART:
-					return ObjectStatusChartConfig.createFromXml(element
-							.getData());
-				case DashboardElement.STATUS_INDICATOR:
-					return StatusIndicatorConfig.createFromXml(element
-							.getData());
-				case DashboardElement.STATUS_MAP:
-					return StatusMapConfig.createFromXml(element.getData());
-				case DashboardElement.TABLE_BAR_CHART:
-					return TableBarChartConfig.createFromXml(element.getData());
-				case DashboardElement.TABLE_PIE_CHART:
-					return TablePieChartConfig.createFromXml(element.getData());
-				case DashboardElement.TABLE_TUBE_CHART:
-					return TableTubeChartConfig
-							.createFromXml(element.getData());
-				case DashboardElement.TABLE_VALUE:
-					return TableValueConfig.createFromXml(element.getData());
-				case DashboardElement.TUBE_CHART:
-					return TubeChartConfig.createFromXml(element.getData());
-				case DashboardElement.WEB_PAGE:
-					return WebPageConfig.createFromXml(element.getData());
-				default:
-					return null;
+		
+		if (adapterType == DashboardElementConfig.class)
+		{
+			DashboardElement element = (DashboardElement)adaptableObject;
+			try
+			{
+				switch(element.getType())
+				{
+				   case DashboardElement.SYSLOG_MONITOR:
+				      return SyslogMonitorConfig.createFromXml(element.getData());
+				   case DashboardElement.SNMP_TRAP_MONITOR:
+				      return SnmpTrapMonitorConfig.createFromXml(element.getData());
+				   case DashboardElement.EVENT_MONITOR:
+				      return EventMonitorConfig.createFromXml(element.getData());
+					case DashboardElement.ALARM_VIEWER:
+						return AlarmViewerConfig.createFromXml(element.getData());
+					case DashboardElement.AVAILABLITY_CHART:
+						return AvailabilityChartConfig.createFromXml(element.getData());
+					case DashboardElement.BAR_CHART:
+						return BarChartConfig.createFromXml(element.getData());
+					case DashboardElement.CUSTOM:
+						return CustomWidgetConfig.createFromXml(element.getData());
+					case DashboardElement.DASHBOARD:
+						return EmbeddedDashboardConfig.createFromXml(element.getData());
+               case DashboardElement.DCI_SUMMARY_TABLE:
+                  return DciSummaryTableConfig.createFromXml(element.getData());
+					case DashboardElement.DIAL_CHART:
+						return GaugeConfig.createFromXml(element.getData());
+					case DashboardElement.GEO_MAP:
+						return GeoMapConfig.createFromXml(element.getData());
+					case DashboardElement.LABEL:
+						return LabelConfig.createFromXml(element.getData());
+					case DashboardElement.LINE_CHART:
+						return LineChartConfig.createFromXml(element.getData());
+					case DashboardElement.NETWORK_MAP:
+						return NetworkMapConfig.createFromXml(element.getData());
+					case DashboardElement.PIE_CHART:
+						return PieChartConfig.createFromXml(element.getData());
+               case DashboardElement.RACK_DIAGRAM:
+                  return RackDiagramConfig.createFromXml(element.getData());
+					case DashboardElement.SEPARATOR:
+						return SeparatorConfig.createFromXml(element.getData());
+               case DashboardElement.SERVICE_COMPONENTS:
+                  return ServiceComponentsConfig.createFromXml(element.getData());
+					case DashboardElement.STATUS_CHART:
+						return ObjectStatusChartConfig.createFromXml(element.getData());
+					case DashboardElement.STATUS_INDICATOR:
+						return StatusIndicatorConfig.createFromXml(element.getData());
+					case DashboardElement.STATUS_MAP:
+						return StatusMapConfig.createFromXml(element.getData());
+					case DashboardElement.TABLE_BAR_CHART:
+						return TableBarChartConfig.createFromXml(element.getData());
+					case DashboardElement.TABLE_PIE_CHART:
+						return TablePieChartConfig.createFromXml(element.getData());
+					case DashboardElement.TABLE_TUBE_CHART:
+						return TableTubeChartConfig.createFromXml(element.getData());
+					case DashboardElement.TABLE_VALUE:
+						return TableValueConfig.createFromXml(element.getData());
+					case DashboardElement.TUBE_CHART:
+						return TubeChartConfig.createFromXml(element.getData());
+					case DashboardElement.WEB_PAGE:
+						return WebPageConfig.createFromXml(element.getData());
+					default:
+						return null;
 				}
-			} catch (Exception e) {
+			}
+			catch(Exception e)
+			{
 				e.printStackTrace();
 				return null;
 			}
